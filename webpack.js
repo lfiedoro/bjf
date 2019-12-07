@@ -1,5 +1,5 @@
 const path = require('path');
-const CleanWebpackPlugin = require('clean-webpack-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
@@ -11,9 +11,9 @@ module.exports = {
     // https://webpack.js.org/concepts/entry-points/#multi-page-application
     entry: {
         index: './src/index.js',
-        login: './src/login.js',
-        dailyLog: './src/dailyLog.js',
-        register: './src/register.js'
+        // login: './src/index.js',
+        // dailyLog: './src/index.js',
+        // register: './src/index.js'
     },
 
     // https://webpack.js.org/configuration/dev-server/
@@ -41,7 +41,7 @@ module.exports = {
             {
                 test: /\.css$/,
                 use: [
-                    "style-loader",
+                    MiniCssExtractPlugin.loader,
                     "css-loader"
                 ]
             }
@@ -50,6 +50,7 @@ module.exports = {
 
     // https://webpack.js.org/concepts/plugins/
     plugins: [
+        new CleanWebpackPlugin(), // cleans output.path by default
         new HtmlWebpackPlugin({
             template: './src/index.html',
             inject: true,
@@ -58,21 +59,25 @@ module.exports = {
         }),
         new HtmlWebpackPlugin({
             template: './src/login.html',
-            inject: true,
-            chunks: ['login'],
+            // inject: true,
+            // chunks: ['index'],
             filename: 'login.html'
         }),
         new HtmlWebpackPlugin({
             template: './src/dailyLog.html',
-            inject: true,
-            chunks: ['dailyLog'],
+            // inject: true,
+            // chunks: ['index'],
             filename: 'dailyLog.html'
         }),
         new HtmlWebpackPlugin({
             template: './src/register.html',
-            inject: true,
-            chunks: ['register'],
+            // inject: true,
+            // chunks: ['index'],
             filename: 'register.html'
+        }),
+        new MiniCssExtractPlugin({
+            filename: '[name].[contenthash].css',
+            chunkFilename: '[id].[contenthash].css'
         })
     ],
 
