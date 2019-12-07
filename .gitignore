@@ -12,3 +12,4 @@ dist/*
 !dist/login.html
 !dist/register.html
 !dist/dailyLog.html
+!dist/main.css

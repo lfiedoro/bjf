@@ -3,90 +3,38 @@
 <head>
     <meta charset="UTF-8">
     <title>Bullet to do</title>
+    <link rel="stylesheet" type="text/css"
+          href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css">
+    <link rel="stylesheet" type="text/css" href="main.css">
 </head>
 <body>
-<div class="container">
-    <h1>Welcome!</h1>
-    <div class="about">
-        BulletToDo is an amazing system that keeps a record of everything you could ever want to toss at it. It can be
-        your
-        task manager, sketchbook, journal, idea catcher, and much more! The BulletToDo is a organizational system in
-        your
-        browser that keeps track of anything you would like to in an coherent way.
-    </div>
-    <br>
-    <div class="buttons">
-        <button id="moreAbout" onclick="location.href=''">Read more</button>
-        <button id="register" onclick="location.href='register.html'">Register</button>
-        <!--zamiast location.href w buttonie, zrobić to w srypcie js-->
-        <button id="login" onclick="location.href='login.html'" ;>Login</button>
+<br>
+<br>
+<br>
+<div class="ui middle aligned center aligned grid">
+    <div class="column">
+        <div class="ui piled segment">
+            <h1 class="ui blue header">Welcome!</h1>
+            <div class="about">
+                BulletToDo is an amazing system that keeps a record of everything you could ever want to toss at it. It
+                can be your task manager, sketchbook, journal, idea catcher, and much more! The BulletToDo is a
+                organizational system in your browser that keeps track of anything you would like to in an coherent way.
+            </div>
+            <br>
+            <div class="ui three buttons">
+                <button id="moreAbout" class="ui large basic button blue" onclick="location.href=''">Read
+                    more
+                </button>
+                <button id="register" class="ui large basic button orange " onclick="location.href='register.html'">
+                    Register
+                </button>
+                <button id="login" class="ui large basic button green" onclick="location.href='login.html'">Log in
+                </button>
+            </div>
+        </div>
     </div>
 </div>
+
 </body>
-<style>
-    body {
-        /*background: #ADCAD6;*/
-        font-family: 'helvetica neue', serif;
-        font-weight: 200;
-        font-size: 20px;
-        background-image: radial-gradient(#CCFCF7 5%, #ADCAD6 5%);
-        background-position: 0 0;
-        background-size: 34px 34px;
-    }
 
-    h1 {
-        display: flex;
-        justify-content: center;
-    }
-
-    .buttons {
-        display: flex;
-        justify-content: space-around;
-    }
-
-    .buttons button {
-        font-size: 15px;
-        color: white;
-        border-radius: 5px;
-        box-shadow: 5px 5px 0 rgba(0, 0, 0, 0.1);
-        min-width: 100px;
-        min-height: 30px;
-        border-style: hidden;
-        text-align: center;
-        transition: all 0.3s ease-in-out;
-        background-color: #006E90;
-
-    }
-
-    .buttons button#register:hover {
-        background-color: #F18F01;
-    }
-
-    .buttons button#moreAbout:hover {
-        background-color: #41BBD9;
-    }
-
-    .buttons button#login:hover {
-        background-color: #99C24D;
-    }
-
-    /*.buttons button#register {*/
-    /*    background-color: #F18F01;*/
-    /*}*/
-
-    .container {
-        color: #084C61;
-        max-width: 500px;
-        margin: 50px auto;
-        border-radius: 5px;
-        box-shadow: 10px 10px 0 rgba(0, 0, 0, 0.1);
-        padding: 2rem;
-        position: relative;
-        background-color: #FCFFF7;
-    }
-
-    .container .about {
-        text-align: justify;
-    }
-</style>
 </html>
