@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Daily Log</title>
+    <link href="../fontawesome-free-5.11.2-web/css/all.min.css" rel="stylesheet">
+
+</head>
+<body>
+<h2>List of task for </h2>
+<!--date-->
+<!--sprawdzić czy data tasków = dzisiejsza data i wtedy zamieniić na today's tasks-->
+<div class="tasks">
+    <table>
+        <th>
+            Impo!
+        </th>
+        <th>
+            Symbol
+        </th>
+        <th>
+            Task description
+        </th>
+        <th>
+            <!--            Settings button-->
+        </th>
+        <tr>
+            <td>1</td>
+            <td>a</td>
+            <td>a</td>
+            <td>
+                <div class="dropdown">
+                    <button class="dropbtn">
+                        <i class="fas fa-cog"></i>
+                        </i></button>
+                    <div class="dropdown-content">
+                        <!--                            id="myDropdown" -->
+
+                        <a href="#">Mark as completed</a>
+                        <a href="#">Irrelevant</a>
+                        <a href="#">Move to backlog</a>
+                    </div>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>1</td>
+            <td>a</td>
+            <td>a</td>
+            <td>
+                <div class="dropdown">
+                    <button class="dropbtn">
+                        <i class="fas fa-cog"></i>
+                        </i></button>
+                    <div class="dropdown-content">
+                        <!--                            id="myDropdown" -->
+
+                        <a href="#">Mark as completed</a>
+                        <a href="#">Irrelevant</a>
+                        <a href="#">Move to backlog</a>
+                    </div>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>1</td>
+            <td>a</td>
+            <td>a</td>
+            <td>
+                <div class="dropdown">
+                    <button class="dropbtn">
+                        <i class="fas fa-cog"></i>
+                        </i></button>
+                    <div class="dropdown-content">
+                        <a href="#" onclick="markCompleted(this)">Mark as completed</a>
+                        <a href="#" onclick="markCompleted(this)">Irrelevant</a>
+                        <a href="#" onclick="markCompleted(this)">Move to backlog</a>
+                    </div>
+                </div>
+            </td>
+        </tr>
+    </table>
+</div>
+<script>
+    const markCompleted = (event) => {
+        // const target = event.target;
+        console.log(event.target);
+    }
+</script>
+</body>
+<style>
+    body {
+        background: #2274A5;
+        font-family: 'helvetica neue', serif;
+        font-weight: 200;
+        font-size: 20px;
+    }
+
+    .tasks {
+        color: #084C61;
+        min-height: 500px;
+        max-width: 800px;
+        margin: 50px auto;
+        border-radius: 5px;
+        box-shadow: 10px 10px 0 rgba(0, 0, 0, 0.1);
+        padding: 2.5rem;
+        position: relative;
+        /*line-height: 100%;*/
+        background-image: radial-gradient(#888 5%, #FCFFF7 5%);
+        background-position: 0 0;
+        background-size: 34px 34px;
+    }
+
+    table, th, tr, td {
+        /*border-color: black;*/
+        /*border-style: solid;*/
+        /*border-width: 1px;*/
+    }
+
+    td:last-child {
+        text-align: right;
+    }
+
+    table {
+        width: 100%;
+    }
+
+
+    /* Dropdown Button */
+    .dropbtn {
+        background-color: #3498DB;
+        color: white;
+        padding: 10px;
+        cursor: pointer;
+        border-radius: 5px;
+        box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.1);
+        border-style: hidden;
+        text-align: center;
+        transition: all 0.3s ease-in-out;
+    }
+
+    /* Dropdown button on hover & focus */
+    .dropbtn:hover, .dropbtn:focus {
+        background-color: #2980B9;
+    }
+
+    /* The container <div> - needed to position the dropdown content */
+    .dropdown {
+        position: relative;
+        display: inline-block;
+        font-size: 14px;
+    }
+
+    /* Dropdown Content (Hidden by Default) */
+    .dropdown-content {
+        display: none;
+        position: absolute;
+        background-color: #f1f1f1;
+        /*min-width: 100px;*/
+        box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+        z-index: 1;
+    }
+
+    /* Links inside the dropdown */
+    .dropdown-content a {
+        color: black;
+        padding: 12px 16px;
+        text-decoration: none;
+        display: block;
+    }
+
+    /* Change color of dropdown links on hover */
+    .dropdown-content a:hover {
+        background-color: #ddd
+    }
+
+    .dropdown:hover .dropdown-content {
+        display: block;
+    }
+</style>
+</html>

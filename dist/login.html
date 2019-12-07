@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login form</title>
+
+</head>
+<body>
+<form action="/users/login" method="post">
+    <div class="container">
+        <h1>Log in</h1>
+        <p>Please enter your login and password.</p>
+        <hr>
+        <label for="email"><b>Email</b></label>
+        <input type="text" placeholder="Enter Email" name="email" id="email" required>
+
+
+        <label for="psw"><b>Password</b></label>
+        <input type="password" placeholder="Enter Password" name="psw" id="psw" required>
+
+        <hr>
+        <button type="submit" class="loginbtn">Log in</button>
+        <button type="reset" class="resetbtn ">Clear form</button>
+
+    </div>
+
+    <div class="container signin">
+        <p>Don't have an account? <a href="register.html">Register</a>.</p>
+    </div>
+</form>
+<script>
+    function myFunction() {
+        document.getElementById("frm1").submit();
+    }
+</script>
+</body>
+</html>
