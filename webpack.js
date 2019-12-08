@@ -19,7 +19,8 @@ module.exports = {
     // https://webpack.js.org/configuration/dev-server/
     devServer: {
         port: 8080,
-        writeToDisk: false
+        writeToDisk: false, 
+        watchContentBase: true
     },
 
     // https://webpack.js.org/configuration/output/

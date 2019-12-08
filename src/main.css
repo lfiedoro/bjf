@@ -3,9 +3,10 @@ body {
     /*font-family: 'helvetica neue', serif;*/
     font-weight: 200;
     font-size: 20px;
-    background-image: radial-gradient(#CCFCF7 5%, #ADCAD6 5%);
-    background-position: 0 0;
-    background-size: 34px 34px;
+    background-color: #888;
+    /* background-image: radial-gradient(#CCFCF7 5%, #ADCAD6 5%); */
+    /* background-position: 0 0; */
+    /* background-size: 34px 34px; */
 }
 
 h1 {
