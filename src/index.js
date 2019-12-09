@@ -1,4 +1,4 @@
-gitrequire('normalize.css/normalize.css');
+require('normalize.css/normalize.css');
 require('./main.css');
 require('./login.js');
 require('./dailyLog.js');
@@ -21,4 +21,3 @@ require('./entryForm.js');
 //     };
 // };
 // main();
-

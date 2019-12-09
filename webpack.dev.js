@@ -1,10 +1,4 @@
-const path = require('path');
-const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
-const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
-const buildPath = path.resolve(__dirname, 'dist');
 
 module.exports = {
 
@@ -19,15 +13,9 @@ module.exports = {
     // https://webpack.js.org/configuration/dev-server/
     devServer: {
         port: 8080,
-        writeToDisk: false, 
-        watchContentBase: true
+        writeToDisk: false,
     },
 
-    // https://webpack.js.org/configuration/output/
-    output: {
-        filename: '[name].[hash:20].js',
-        path: buildPath
-    },
 
     module: {
         rules: [
@@ -42,8 +30,8 @@ module.exports = {
             {
                 test: /\.css$/,
                 use: [
-                    MiniCssExtractPlugin.loader,
-                    "css-loader"
+                    'style-loader',
+                    'css-loader'
                 ]
             }
         ]
@@ -51,7 +39,6 @@ module.exports = {
 
     // https://webpack.js.org/concepts/plugins/
     plugins: [
-        new CleanWebpackPlugin(), // cleans output.path by default
         new HtmlWebpackPlugin({
             template: './src/index.html',
             inject: true,
@@ -81,22 +68,6 @@ module.exports = {
             // inject: true,
             // chunks: ['index'],
             filename: 'entryForm.html'
-        }),
-        new MiniCssExtractPlugin({
-            filename: '[name].[contenthash].css',
-            chunkFilename: '[id].[contenthash].css'
         })
-    ],
-
-    // https://webpack.js.org/configuration/optimization/
-    optimization: {
-        minimizer: [
-            new UglifyJsPlugin({
-                cache: true,
-                parallel: true,
-                sourceMap: true
-            }),
-            new OptimizeCssAssetsPlugin({})
-        ]
-    }
+    ]
 };
