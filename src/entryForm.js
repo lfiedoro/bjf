@@ -7,8 +7,7 @@ const entryFormInit = () => {
 
 const reset = (e) => {
     e.preventDefault();
-
-    document.querySelector('#entryForm').reset();
+    document.querySelector('#entry-form').reset();
 };
 
 const getRadioTypeInput = (radioId) => {
@@ -45,10 +44,6 @@ const send = (e) => {
     const date = document.querySelector('.entry-date').value;
     const description = document.querySelector('.description').value;
 
-    console.log(date);
-    console.log(description);
-    console.log(type, significant);
-
     let body = {
         "entryType": type,
         "taskState": "incomplete",
@@ -56,8 +51,6 @@ const send = (e) => {
         "date": date,
         "body": description
     };
-
-    console.log(body);
 
     fetch('http://localhost:3030/api/entries/', {
         method: 'POST',
@@ -67,13 +60,7 @@ const send = (e) => {
         body: JSON.stringify(body),
     }).then(resp => console.log(resp))
         .catch(err => console.log(err));
-
-    // // let ret = validate();
-    // if (ret) {
-    //     document.querySelector('#entryForm').submit();
-    // } else {
-    //     alert('dupa');
-    // }
+    document.querySelector('#entry-form').reset();
 };
 
 const wind = window.location.href;
