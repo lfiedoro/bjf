@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Login form</title>
+    <link rel="stylesheet" type="text/css"
+        href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css">
+    <link rel="stylesheet" type="text/css" href="main.css">
+
+</head>
+
+<body>
+    <br>
+    <br>
+    <br>
+    <div class="ui middle aligned center aligned grid">
+        <div class="column">
+            <h1 class="ui header">
+                <div class="content">
+                    Add new task/event/note
+                </div>
+            </h1>
+            <form id="entry-form" class="ui large form">
+                <div class="ui segment">
+                    <div id="type-radio" class="inline fields">
+                        <label>Select type</label>
+                        <div class="field">
+                            <div class="ui radio checkbox">
+                                <input type="radio" name="entryType" value="task" tabindex="0" checked>
+                                <label>task</label>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <div class="ui radio checkbox">
+                                <input type="radio" name="entryType" value="note" tabindex="0">
+                                <label>note</label>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <div class="ui radio checkbox">
+                                <input type="radio" name="entryType" value="event" tabindex="0">
+                                <label>event</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="sign-radio" class="inline fields">
+                        <label>Select signification</label>
+                        <div class="field">
+                            <div class="ui radio checkbox">
+                                <input type="radio" name="significationType" value="none" tabindex="0" checked>
+                                <label>none</label>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <div class="ui radio checkbox">
+                                <input type="radio" name="significationType" value="priority" tabindex="0">
+                                <label>priority</label>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <div class="ui radio checkbox">
+                                <input type="radio" name="significationType" value="inspiration" tabindex="0">
+                                <label>inspiration</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label>Description </label>
+                        <textarea type="text" class="description" rows="3" value=""></textarea>
+                    </div>
+                    <div class="field">
+                        <label>Date </label>
+                        <input class="entry-date" type="datetime-local" name="date"></input>
+                    </div>
+                </div>
+                <button class="ui large button submit blue loginbtn">Add</button>
+                <button class="ui large button clear resetbtn ">Clear</button>
+            </form>
+        </div>
+    </div>
+</body>
+
+</html>

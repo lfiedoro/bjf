@@ -1,128 +1,72 @@
 <!DOCTYPE html>
 <html lang="en">
+
+
 <head>
     <meta charset="UTF-8">
     <title>Daily Log</title>
-    <!--    <link href="../fontawesome-free-5.11.2-web/css/all.min.css" rel="stylesheet">-->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
     <link rel="stylesheet" type="text/css"
-          href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css">
+        href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css">
     <link rel="stylesheet" type="text/css" href="main.css">
-
+    <!-- <script type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/components/semantic.js"></script>
+    <script type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/components/transition.js"></script> -->
 </head>
-<body>
-<h2>List of task for </h2>
-<!--date-->
-<!--sprawdzić czy data tasków = dzisiejsza data i wtedy zamieniić na today's tasks-->
-<div class="tasks">
-    <table>
-        <th>
-            Impo!
-        </th>
-        <th>
-            Symbol
-        </th>
-        <th>
-            Task description
-        </th>
-        <th>
-            <!--            Settings button-->
-        </th>
-        <tr>
-            <td>1</td>
-            <td>a</td>
-            <td>a</td>
-            <td>
-                <div class="dropdown">
-                    <button class="ui icon button dropbtn">
-                        <i class="cog icon"></i>
-                    </button>
-                    <div class="dropdown-content">
-                        <!--                            id="myDropdown" -->
 
-                        <a href="#">Mark as completed</a>
-                        <a href="#">Irrelevant</a>
-                        <a href="#">Move to backlog</a>
-                    </div>
-                </div>
-            </td>
-        </tr>
-        <tr>
-            <td>1</td>
-            <td>a</td>
-            <td>a</td>
-            <td>
-                <!--               button-->
-                <!--                <div class="ui icon bottom left pointing dropdown button">-->
-                <!--                    <i class="wrench icon"></i>-->
-                <!--                    <div class="menu">-->
-                <!--                        <div class="item">-->
-                <!--                            <i class="dropdown icon"></i>-->
-                <!--                            <span class="text">New</span>-->
-                <!--                            <div class="menu">-->
-                <!--                                <div class="item">Document</div>-->
-                <!--                                <div class="item">Image</div>-->
-                <!--                            </div>-->
-                <!--                        </div>-->
-                <!--                        <div class="item">Save As...</div>-->
-                <!--                        <div class="item">Edit</div>-->
-                <!--                    </div>-->
-                <!--                </div>-->
-            </td>
-        </tr>
-        <tr>
-            <td>1</td>
-            <td>a</td>
-            <td>a</td>
-            <td>
-<!--                <div class="ui icon bottom left pointing dropdown button">-->
-                <!--                    <i class="cog icon"></i>-->
-                <!--                    <div class="menu">-->
-                <!--                        <div class="header">Display Density</div>-->
-                <!--                        <div class="item">Comfortable</div>-->
-                <!--                        <div class="item">Cozy</div>-->
-                <!--                        <div class="item">Compact</div>-->
-                <!--                        <div class="ui divider"></div>-->
-                <!--                        <div class="item">Settings</div>-->
-                <!--                        <div class="item">-->
-                <!--                            <i class="dropdown icon"></i>-->
-                <!--                            <span class="text">Upload Settings</span>-->
-                <!--                            <div class="menu">-->
-                <!--                                <div class="item">-->
-                <!--                                    <i class="check icon"></i>-->
-                <!--                                    Convert Uploaded Files to PDF-->
-                <!--                                </div>-->
-                <!--                                <div class="item">-->
-                <!--                                    <i class="check icon"></i>-->
-                <!--                                    Digitize Text from Uploaded Files-->
-                <!--                                </div>-->
-                <!--                            </div>-->
-                <!--                        </div>-->
-                <!--                        <div class="item">Manage Apps</div>-->
-                <!--                        <div class="item">Keyboard Shortcuts</div>-->
-                <!--                        <div class="item">Help</div>-->
-                <!--                    </div>-->
-                <!--                </div>-->
-                <div class="dropdown">
-                    <button class="dropbtn">
-                        <i class="fas fa-cog"></i>
-                        </i></button>
-                    <div class="dropdown-content">
-                        <a href="#" onclick="markCompleted(this)">Mark as completed</a>
-                        <a href="#" onclick="markCompleted(this)">Irrelevant</a>
-                        <a href="#" onclick="markCompleted(this)">Move to backlog</a>
-                    </div>
-                </div>
-            </td>
-        </tr>
-    </table>
-</div>
+<body>
+    <h2 id="log-name">List of task for </h2>
+    <!-- here js file will put name of log /daily/monthly/backlog -->
+    <div id="task-list" class=" tasks">
+        <!-- ui piled segment -->
+        <!--date-->
+        <!--sprawdzić czy data tasków = dzisiejsza data i wtedy zamieniić na today's tasks-->
+        <table id="task-table">
+            <!-- <th>
+                Impo!
+            </th>
+            <th>
+                Symbol
+            </th>
+            <th>
+                Task description
+            </th>
+            <th>
+                           Settings button
+            </th> -->
+        </table>
+    </div>
+    </div>
+    </div>
 </body>
-<style>
-    /*body {*/
-    /*    background: #2274A5;*/
-    /*    font-family: 'helvetica neue', serif;*/
-    /*    font-weight: 200;*/
-    /*    font-size: 20px;*/
-    /*}*/
-</style>
+<!-- <script>
+    // window.onload = function(){
+    //     $('.ui.dropdown').dropdown();
+    // };
+    $.fn.api.settings.api = {
+        'set non-important': 'http://localhost:3030/api/entries/{id}',
+    };
+    $('.item.none')
+        .api({
+            action: 'set non-important',
+            method: 'POST',
+
+            urlData: {
+                id: 22
+            },
+            data: {
+                "entryType": "note",
+                "taskState": "migrated",
+                "significationType": "none",
+                "nestedEntries": [],
+                "_id": "5dec0304c986d1025462f1fb",
+                "date": "2019-11-30T23:00:00.000Z",
+                "body": "awesome new with date",
+                "__v": 0
+            }
+        })
+</script> -->
+
 </html>

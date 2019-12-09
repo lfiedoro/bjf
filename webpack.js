@@ -19,7 +19,8 @@ module.exports = {
     // https://webpack.js.org/configuration/dev-server/
     devServer: {
         port: 8080,
-        writeToDisk: false
+        writeToDisk: false, 
+        watchContentBase: true
     },
 
     // https://webpack.js.org/configuration/output/
@@ -74,6 +75,12 @@ module.exports = {
             // inject: true,
             // chunks: ['index'],
             filename: 'register.html'
+        }),
+        new HtmlWebpackPlugin({
+            template: './src/entryForm.html',
+            // inject: true,
+            // chunks: ['index'],
+            filename: 'entryForm.html'
         }),
         new MiniCssExtractPlugin({
             filename: '[name].[contenthash].css',
