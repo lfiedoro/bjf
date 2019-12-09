@@ -24,7 +24,7 @@ function htmlToElements(html) {
 }
 
 // docelowo jako argument wejdzie userid, który bedzie przekazywany do api
-const getTasks = () => {
+const dailyLogInit = () => {
     fetch(`http://localhost:3030/api/entries`)
         .then(response => response.json())
         .catch(new Error('Could not get any tasks'))
@@ -38,18 +38,52 @@ const getTasks = () => {
 
 const createTaskHTML = (task) => {
     const html = `
-        <tr class="task" id=${task._id}>
-            <td class="signification">${task.significationType}</td>
-            <td class="entry-type">${task.entryType}</td>
+        <tr class="task" id=${task._id}> 
+        <td class="signification">${createSignificationButtonMenu(createSignificationButton(task.significationType))}</td>
+            <td class="entry-type">${createButton(createEntryTypeButon(task.entryType, task.taskState))}</td>
             <td class="task-state">${task.taskState}</td>
             <td class="description">${task.body}</td>
-            <td class="settings">${createSettingsButton()}</td>
+            <td class="settings">${createButton("cog")}</td>
         </tr>
-        <div class="ui divider></div>
         `;
     const element = htmlToElement(html);
     putTaskIntoHTML(element);
     // putTaskIntoHTML(html);
+};
+
+const createSignificationButton = (type) => {
+    switch (type) {
+        case "priority":
+            return "exclamation";
+        case "inspiration":
+            return "star";
+        case "none":
+            return "";
+    }
+};
+
+const createEntryTypeButon = (type, state) => {
+    if (state === "complete") {
+        return "close";
+    }
+    if (state === "migrated") {
+        return "chevron right";
+    }
+    if (state === "scheduled") {
+        return "chevron left";
+    }
+    if (state === "irrelevant") {
+        return "";//what to do?
+    }
+    if (type === "task") {
+        return "circle";
+    }
+    if (type === "note") {
+        return "minus";
+    }
+    if (type === "event") {
+        return "circle outline";
+    }
 };
 
 const putTaskIntoHTML = (taskHTML) => {
@@ -57,8 +91,36 @@ const putTaskIntoHTML = (taskHTML) => {
     taskTable.appendChild(taskHTML);
 };
 
-const createSettingsButton = () => {
-    return `<button></button>`;
+const createButton = (iconName) => {
+    return `<button class="ui icon button">
+    <i class="${iconName} icon"></i>
+  </button>`;
 };
 
-getTasks();
+const createSignificationButtonMenu = (buttonIcon) => {
+    return `
+    <div class="ui simple icon top left dropdown button">
+    <i class="${buttonIcon} icon"></i>
+    <div class="menu">
+        <div class="header">Signification type</div>
+        <div class="item priority"><i class="exclamation icon"></i>Important</div>
+        <div class="item inspiration"><i class="star icon"></i>Inspiration</div>
+        <div class="item none"><i class="icon"></i>None</div>
+    </div>
+    </div>
+    `
+}
+
+// const priorityButton = document.querySelector('.item.priority');
+// if(priorityButton){
+//     priorityButton.addEventListener(('click', (e) => {
+//         console.log(e,"clicked");
+//     }));
+// }
+const wind = window.location.href;
+
+
+if (wind.includes('dailyLog.html')) {
+    console.log('dailylog init')
+    dailyLogInit();
+};
