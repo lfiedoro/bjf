@@ -11,29 +11,13 @@ const reset = (e) => {
 };
 
 const getRadioTypeInput = (radioId) => {
-    let sv = " ";
-
     const radio = document.querySelector(radioId).querySelectorAll('input[type=radio]');
     for (let i = 0; i < radio.length; i++) {
         if (radio[i].checked) {
             return radio[i].value;
         }
     }
-
-    // radio.forEach(element => {
-    //     if (element.checked) {
-    //         if (element.value == "task") {
-    //             console.log(element.value);
-    //             return "task";
-    //         }
-    //     }
-    // });
 };
-
-// const altSend = (e) => {
-//     e.preventDefault();
-//     console.log('sending');
-// }
 
 const send = (e) => {
     e.preventDefault();

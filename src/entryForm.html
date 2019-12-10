@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Login form</title>
+    <title>Entry form</title>
     <link rel="stylesheet" type="text/css"
         href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css">
     <link rel="stylesheet" type="text/css" href="main.css">
@@ -23,6 +23,10 @@
             </h1>
             <form id="entry-form" class="ui large form">
                 <div class="ui segment">
+                    <div class="field inline" hidden>
+                        <label>Id </label>
+                        <input type="text" class="id"></input>
+                    </div>
                     <div id="type-radio" class="inline fields">
                         <label>Select type</label>
                         <div class="field">
@@ -69,7 +73,7 @@
                         <label>Description </label>
                         <textarea type="text" class="description" rows="3" value=""></textarea>
                     </div>
-                    <div class="field">
+                    <div class="inline field">
                         <label>Date </label>
                         <input class="entry-date" type="date" name="date"></input>
                     </div>
