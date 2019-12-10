@@ -1,42 +1,37 @@
-let inMemoryToken;
-console.log(`your token is ${inMemoryToken}`);
-
 const loginButton = document.querySelector('.loginbtn');
-if(loginButton) {
+if (loginButton) {
     loginButton.addEventListener('click', (event) => handleLogin(event));
 }
-
-// function handleLogin() {
-//     event.preventDefault();
-//     const username = document.querySelector('input[type=text]').value;
-//     const password = document.querySelector('input[type=password]').value;
-
-//     const { jwt_token } = { jwt_token: `${username}-${password}` };
-//     inMemoryToken = jwt_token;
-//     console.log(inMemoryToken);
-
-//     window.location.href = 'dailyLog.html';
-// }
-
-function handleLogout () {
-    inMemoryToken = null;
-    Router.push('/login');
+const logoutButton = document.querySelector('.logoutbtn');
+if (logoutButton) {
+    logoutButton.addEventListener('click', (event) => handleLogout(event));
 }
 
-function handleLogin() {
-    const username = document.querySelector('input[type=text]');
-    const password = document.querySelector('input[type=password]');
+function handleLogout() {
+    sessionStorage.removeItem('inMemoryToken');
+    window.location.href = '/login.html';
+}
 
-    fetch('http://192.168.0.171:3030/user/signup', {
+function handleLogin(event) {
+    event.preventDefault();
+    const name = document.querySelector('input[type=text]').value;
+    const password = document.querySelector('input[type=password]').value;
+
+    fetch('http://localhost:3030/user/login', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ username, password })
+        body: JSON.stringify({ name, password })
     })
-        .then((resp) => {
-            const { jwt_token } =  resp.json();
-            inMemoryToken = jwt_token;
+        .then((resp) => resp.json())
+        .then(json => {
+            const { token } = json
+            if (token) {
+                sessionStorage.setItem('inMemoryToken', token);
+                window.location.href = 'log.html';
+            }
         })
-        .catch(err => console.log(err))
- }
+        .catch(err => console.log(err));
+
+}

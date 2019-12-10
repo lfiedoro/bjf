@@ -1,6 +1,8 @@
 // czy nie lepiej zroić e ten sposób, że po mianie daty przy entry automatycznie pojawi
 // się znaczegi migracji, a w rozwijanym menu nie będzie opcji migrate
 //tą zmienną dodawć do headerów w fetchu
+token = undefined;
+
 
 /**
  * @param {String} HTML representing a single element
@@ -94,7 +96,8 @@ const send = (e) => {
     fetch('http://localhost:3030/api/entries/', {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + token
         },
         body: JSON.stringify(body),
     }).then(resp => console.log(resp))
@@ -256,7 +259,11 @@ const addListenersForMonthlyDailyNavbar = () => {
 
 const initIrrelevant = () => {
     document.querySelector('#task-table').innerHTML = " ";
-    fetch(`http://localhost:3030/api/entries`)
+    fetch(`http://localhost:3030/api/entries`, {
+        headers: {
+            'Authorization': 'Bearer ' + token
+        },
+    })
         .then(response => response.json())
         .catch(new Error('Could not get any tasks'))
         .then(tasks => {
@@ -279,7 +286,11 @@ const initMonthlyLog = () => {
 const initMonthlyLogWithDate = (currentYearAndMonth) => {
     document.querySelector('#task-table').innerHTML = " ";
     createNavBarForMonthlyAndDailyLog(currentYearAndMonth);
-    fetch(`http://localhost:3030/api/entries?month=${currentYearAndMonth}`)
+    fetch(`http://localhost:3030/api/entries?month=${currentYearAndMonth}`, {
+        headers: {
+            'Authorization': 'Bearer ' + token
+        }
+    })
         .then(response => response.json())
         .catch(new Error('Could not get any tasks'))
         .then(tasks => {
@@ -300,7 +311,11 @@ const initDailyLog = () => {
 const initDailyLogWithDate = (todaysDate) => {
     document.querySelector('#task-table').innerHTML = " ";
     createNavBarForMonthlyAndDailyLog(todaysDate);
-    fetch(`http://localhost:3030/api/entries?ondate=${todaysDate}`)
+    fetch(`http://localhost:3030/api/entries?ondate=${todaysDate}`, {
+        headers: {
+            'Authorization': 'Bearer ' + token
+        }
+    })
         .then(response => response.json())
         .catch(new Error('Could not get any tasks'))
         .then(tasks => {
@@ -316,7 +331,11 @@ const initDailyLogWithDate = (todaysDate) => {
 const initBacklog = () => {
     document.querySelector('#task-table').innerHTML = " ";
     // clear all tasks
-    fetch(`http://localhost:3030/api/entries`)
+    fetch(`http://localhost:3030/api/entries`, {
+        headers: {
+            'Authorization': 'Bearer ' + token
+        }
+    })
         .then(response => response.json())
         .catch(new Error('Could not get any tasks'))
         .then(tasks => {
@@ -533,7 +552,8 @@ const editEntry = (entryId, body) => {
     fetch(`http://localhost:3030/api/entries/${entryId}`, {
         method: 'PUT',
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + token
         },
         body: JSON.stringify(body),
     }).then(resp => {
@@ -547,7 +567,8 @@ const deleteEntry = (entryId) => {
     fetch(`http://localhost:3030/api/entries/${entryId}`, {
         method: 'DELETE',
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + token
         },
     }).then(resp => {
         console.log(resp);
@@ -570,7 +591,12 @@ const logInit = () => {
 
 const wind = window.location.href;
 if (wind.includes('log.html')) {
-    // console.log('log init')
+    token = sessionStorage.getItem('inMemoryToken');
+    if (!token) {
+        console.log('No JWT token!');
+        window.location.href = 'login.html';
+    }
+    console.log('dailylog init with');
     addListenersToMenuButtons();
     logInit();
 };
