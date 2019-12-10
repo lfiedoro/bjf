@@ -6,40 +6,37 @@ if(loginButton) {
     loginButton.addEventListener('click', (event) => handleLogin(event));
 }
 
+// function handleLogin() {
+//     event.preventDefault();
+//     const username = document.querySelector('input[type=text]').value;
+//     const password = document.querySelector('input[type=password]').value;
 
-function handleLogin() {
-    event.preventDefault();
-    const username = document.querySelector('input[type=text]').value;
-    const password = document.querySelector('input[type=password]').value;
+//     const { jwt_token } = { jwt_token: `${username}-${password}` };
+//     inMemoryToken = jwt_token;
+//     console.log(inMemoryToken);
 
-    const { jwt_token } = { jwt_token: `${username}-${password}` };
-    inMemoryToken = jwt_token;
-    console.log(inMemoryToken);
-
-    window.location.href = 'dailyLog.html';
-}
+//     window.location.href = 'dailyLog.html';
+// }
 
 function handleLogout () {
-  inMemoryToken = null;
-  Router.push('/login')
+    inMemoryToken = null;
+    Router.push('/login');
 }
 
-// async function handleLogin() {
-//     alert('Error')
-//     const username = document.querySelector('input[type=text]');
-//     const password = document.querySelector('input[type=password]');
+function handleLogin() {
+    const username = document.querySelector('input[type=text]');
+    const password = document.querySelector('input[type=password]');
 
-//     try {
-//         const response = await fetch(`/auth/login`, {
-//             method: 'POST',
-//             body: JSON.stringify({ username, password })
-//         })
-
-//         const { jwt_token } = await response.json()
-
-//         inMemoryToken = jwt_token
-//     }
-//     catch {
-//         alert('Error');
-//     }
-// }
+    fetch('http://192.168.0.171:3030/user/signup', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ username, password })
+    })
+        .then((resp) => {
+            const { jwt_token } =  resp.json();
+            inMemoryToken = jwt_token;
+        })
+        .catch(err => console.log(err))
+ }
