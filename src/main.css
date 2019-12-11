@@ -42,7 +42,7 @@ h1 {
     background-image: radial-gradient(rgb(180, 175, 175) 5%, #FCFFF7 5%);
     background-position: 0 0;
     background-size: 34px 34px;
-    /* min-width: 75vh; */
+    min-width: 90vh;
     /* min-height: 80vh; */
 }
 
