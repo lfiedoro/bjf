@@ -52,10 +52,10 @@ module.exports = {
             filename: 'login.html'
         }),
         new HtmlWebpackPlugin({
-            template: './src/dailyLog.html',
+            template: './src/log.html',
             // inject: true,
             // chunks: ['index'],
-            filename: 'dailyLog.html'
+            filename: 'log.html'
         }),
         new HtmlWebpackPlugin({
             template: './src/register.html',
@@ -63,11 +63,5 @@ module.exports = {
             // chunks: ['index'],
             filename: 'register.html'
         }),
-        new HtmlWebpackPlugin({
-            template: './src/entryForm.html',
-            // inject: true,
-            // chunks: ['index'],
-            filename: 'entryForm.html'
-        })
     ]
 };
