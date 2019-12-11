@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+<head>
+    <meta charset="UTF-8">
+    <title>Bullet Jurnal Log</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <link rel="stylesheet" type="text/css"
+        href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css">
+    <link rel="stylesheet" type="text/css" href="main.css">
+    <!-- <script type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/components/semantic.js"></script>
+    <script type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/components/transition.js"></script> -->
+</head>
+
+<body>
+    <!-- navbar -->
+    <div class="ui inverted menu">
+        <div class="header item">BuJoApp</div>
+        <!-- <div class="active item">Link</div> -->
+        <div class="right menu">
+            <!-- this will appear only if user is not loged in
+            <a class="item"> Log in </a>
+            <a class="item">Sign up</a> -->
+            <!-- this will appear only when user is logged in -->
+            <div class="ui simple dropdown item">
+                Account
+                <i class="dropdown icon"></i>
+                <div class="menu">
+                    <div class="item"> Log out </div>
+                    <div class="divider"></div>
+                    <div class="item">Report an issue</div>
+                    <div class="divider"></div>
+                    <div class="item">Delete account</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- main content -->
+    <div class="ui container tasks>" id="all-log">
+        <div class="ui huge center aligned header" id="log-name">Welcome /name/, here's your Bullet
+            Jurnal! </div>
+        <!-- here js file will put name of log /daily/monthly/backlog -->
+        <div class="ui top attached tabular menu" id="log-buttons">
+            <div id="add-new-button" class="item"><i class="ui plus icon"></i> Add new</div>
+            <div id="daily-button" class=" active item">Daily log</div>
+            <div id="monthly-button" class="item">Monthly log</div>
+            <div id="back-button" class=" item">Backlog</div>
+            <div id="irr-button" class="item">Irrelevant</div>
+        </div>
+        <div id="task-list" class="ui bottom attached segment">
+            <table class="ui very basic table" id="task-table">
+            </table>
+        </div>
+    </div>
+    <!-- footer -->
+    <div class="ui inverted vertical footer segment">
+        <div class="ui container">
+            <div class="ui stackable divided equal height stackable grid">
+                <div class="three wide column">
+                    <h4 class="ui inverted header">
+                        <div class="ui inverted link list">
+                            <a href="/index.html" class="item">About us</a>
+                        </div>
+                    </h4>
+                </div>
+                <div class="six wide column">
+                    <h4 class="ui inverted header">
+                        <div class="ui inverted link list">
+                            <a href="https://bulletjournal.com/" target="_blank" class="item">Read more abaout Bullet
+                                Jurnal</a>
+                        </div>
+                    </h4>
+                </div>
+                <div class="right floated six wide column">
+                    <h4 class="ui inverted header">
+                        <div class="ui inverted link list">
+                            <a href="#" class="item">Contact</a>
+                        </div>
+                    </h4>
+                </div>
+            </div>
+            <!-- <div class="ui stackable stackable grid right floating">Copyright 2019 BuJoApp</div> -->
+        </div>
+    </div>
+</body>
+
+</html>

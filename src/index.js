@@ -1,8 +1,6 @@
 require('normalize.css/normalize.css');
-require('./main.css');
-require('./login.js');
-require('./dailyLog.js');
-require('./entryForm.js');
+require('./main.css')
+require('./log.js');
 
 
 // const main = () => {

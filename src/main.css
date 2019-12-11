@@ -3,10 +3,13 @@ body {
     /*font-family: 'helvetica neue', serif;*/
     font-weight: 200;
     font-size: 20px;
-    background-color: #888;
+    background-color: #40798C;
     /* background-image: radial-gradient(#CCFCF7 5%, #ADCAD6 5%); */
     /* background-position: 0 0; */
     /* background-size: 34px 34px; */
+    display: flex;
+  min-height: 100vh;
+  flex-direction: column;
 }
 
 h1 {
@@ -27,61 +30,54 @@ h1 {
     min-width: 130px;
 }
 
-/* #task-table{
-    background-image: radial-gradient(#888 5%, #FCFFF7 5%);
-    background-position: 0 0;
-    background-size: 34px 34px;
-} */
-
-/*.buttons button {*/
-/*    font-size: 15px;*/
-/*    color: white;*/
-/*    border-radius: 5px;*/
-/*    box-shadow: 5px 5px 0 rgba(0, 0, 0, 0.1);*/
-/*    min-width: 100px;*/
-/*    min-height: 30px;*/
-/*    border-style: hidden;*/
-/*    text-align: center;*/
-/*    transition: all 0.3s ease-in-out;*/
-/*    background-color: #006E90;*/
-
-/*}*/
-
-/*.buttons button#register:hover {*/
-/*    background-color: #F18F01;*/
-/*}*/
-
-/*.buttons button#moreAbout:hover {*/
-/*    background-color: #41BBD9;*/
-/*}*/
-
-/*.buttons button#login:hover {*/
-/*    background-color: #99C24D;*/
-/*}*/
-
-/*.buttons button#register {*/
-/*    background-color: #F18F01;*/
-/*}*/
-
-.container {
-    color: #084C61;
-    max-width: 500px;
+#all-log,
+#about {
+        /* color: #084C61; */
+    /* max-width: 500px; */
     margin: 50px auto;
     border-radius: 5px;
     box-shadow: 10px 10px 0 rgba(0, 0, 0, 0.1);
-    padding: 2rem;
-    position: relative;
-    background-color: #FCFFF7;
+    padding: 5rem;
+    /* position: relative; */
+    background-image: radial-gradient(rgb(180, 175, 175) 5%, #FCFFF7 5%);
+    background-position: 0 0;
+    background-size: 34px 34px;
+    min-width: 90vh;
+    /* min-height: 80vh; */
 }
 
-.container .about {
+#about{
     text-align: justify;
+    justify-content: center;
+}
+
+#log-buttons .item:hover{
+    cursor: pointer;
+}
+
+#task-list,
+#about-main-content{
+    font-size: 15px;
+    font-weight: bold;
+    color: #555;
+    min-height: 40vh;
+}
+
+/* .container .about {
+    text-align: justify;
+} */
+
+.footer {
+    margin-bottom: 0;
+    padding-bottom: 0;
+   flex: 1;
+   min-height: 30vh;
 }
 
 
 /*LOG*/
 
-.tasks {
+/* .tasks {
     color: #084c61;
     min-height: 500px;
     max-width: 800px;
@@ -90,11 +86,11 @@ h1 {
     box-shadow: 10px 10px 0 rgba(0, 0, 0, 0.1);
     padding: 2.5rem;
     position: relative;
-    /*line-height: 100%;*/
+    line-height: 100%;
     background-image: radial-gradient(#888 5%, #FCFFF7 5%);
     background-position: 0 0;
     background-size: 34px 34px;
-}
+} */
 
 td:last-child {
     text-align: right;
