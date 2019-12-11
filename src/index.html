@@ -1,24 +1,47 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>Bullet to do</title>
     <link rel="stylesheet" type="text/css"
-          href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css">
+        href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css">
     <link rel="stylesheet" type="text/css" href="main.css">
 </head>
+
 <body>
-<br>
-<br>
-<br>
-<div class="ui middle aligned center aligned grid">
-    <div class="column">
-        <div class="ui piled segment">
-            <h1 class="ui blue header">Welcome!</h1>
-            <div class="about">
-                BulletToDo is an amazing system that keeps a record of everything you could ever want to toss at it. It
-                can be your task manager, sketchbook, journal, idea catcher, and much more! The BulletToDo is a
-                organizational system in your browser that keeps track of anything you would like to in an coherent way.
+    <!-- navbar -->
+    <div class="ui inverted menu">
+        <div class="header item">BuJoApp</div>
+        <!-- <div class="active item">Link</div> -->
+        <div class="right menu">
+            <!-- this will appear only if user is not loged in -->
+            <a class="item"> Log in </a>
+            <a class="item">Sign up</a>
+        </div>
+    </div>
+    <div class="ui container" id="about">
+        <div class="ui huge center aligned header">Welcome!</div>
+        <div class="ui segment">
+            <div id="about-main-content">
+                BuJoApp is an amazing system that keeps a record of everything you could ever want to toss at it.
+                It can be your task manager, sketchbook, journal, idea catcher, and much more! The BuJoApp is a
+                organizational system in your browser that keeps track of anything you would like to in an coherent
+                way. Our app is designed to be simple. We belive that simplicity is a wey to to be focused and
+                productove.
+                <br>BuJoApp base on regular logging and categorizing entries into tasks, events and notes.
+                Tasks are represented by <i class="ui circle icon"></i>, events by <i
+                    class="ui circle outline icon"></i> and notes by
+                <i class="ui minus icon"></i>.<br> You can add a date to an entry - it will appear in proper daily and
+                monthly log, or you can leave it
+                without date, then you will find this entry in the backlog.<br>
+                Every entry can have one of five states: incomplete represented by basic icon, complete represented by
+                <i class="ui close icon"></i>,
+                irrelevant - represented by <i class="ui ban icon"></i> - these entries are also automaticly moved to
+                designed log
+                to not distract you while checking your daily or monthly log. You can always change state of entry to
+                move it back to another log.......to be continued
+
             </div>
             <br>
             <div class="ui three buttons">
@@ -31,10 +54,39 @@
                 <button id="login" class="ui large basic button green" onclick="location.href='login.html'">Log in
                 </button>
             </div>
+            <!-- </div> -->
         </div>
     </div>
-</div>
-
+    <!-- footer -->
+    <div class="ui inverted vertical footer segment">
+        <div class="ui container">
+            <div class="ui stackable divided equal height stackable grid">
+                <div class="three wide column">
+                    <h4 class="ui inverted header">
+                        <div class="ui inverted link list">
+                            <a href="/index.html" class="item">About us</a>
+                        </div>
+                    </h4>
+                </div>
+                <div class="six wide column">
+                    <h4 class="ui inverted header">
+                        <div class="ui inverted link list">
+                            <a href="https://bulletjournal.com/" target="_blank" class="item">Read more abaout Bullet
+                                Jurnal</a>
+                        </div>
+                    </h4>
+                </div>
+                <div class="right floated six wide column">
+                    <h4 class="ui inverted header">
+                        <div class="ui inverted link list">
+                            <a href="#" class="item">Contact</a>
+                        </div>
+                    </h4>
+                </div>
+            </div>
+            <!-- <div class="ui stackable stackable grid right floating">Copyright 2019 BuJoApp</div> -->
+        </div>
+    </div>
 </body>
 
 </html>

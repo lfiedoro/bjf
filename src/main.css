@@ -7,6 +7,9 @@ body {
     /* background-image: radial-gradient(#CCFCF7 5%, #ADCAD6 5%); */
     /* background-position: 0 0; */
     /* background-size: 34px 34px; */
+    display: flex;
+  min-height: 100vh;
+  flex-direction: column;
 }
 
 h1 {
@@ -27,31 +30,48 @@ h1 {
     min-width: 130px;
 }
 
-.container {
+#all-log,
+#about {
         /* color: #084C61; */
-    max-width: 500px;
+    /* max-width: 500px; */
     margin: 50px auto;
     border-radius: 5px;
     box-shadow: 10px 10px 0 rgba(0, 0, 0, 0.1);
     padding: 5rem;
     /* position: relative; */
-
-}
-
-#all-log{
     background-image: radial-gradient(rgb(180, 175, 175) 5%, #FCFFF7 5%);
     background-position: 0 0;
     background-size: 34px 34px;
+    /* min-width: 75vh; */
+    /* min-height: 80vh; */
 }
 
-#task-list{
+#about{
+    text-align: justify;
+    justify-content: center;
+}
+
+#log-buttons .item:hover{
+    cursor: pointer;
+}
+
+#task-list,
+#about-main-content{
     font-size: 15px;
     font-weight: bold;
     color: #555;
+    min-height: 40vh;
 }
 
-.container .about {
+/* .container .about {
     text-align: justify;
+} */
+
+.footer {
+    margin-bottom: 0;
+    padding-bottom: 0;
+   flex: 1;
+   min-height: 30vh;
 }
 
 
