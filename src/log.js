@@ -1,4 +1,5 @@
-const inMemoryToken = 'dupa';
+// czy nie lepiej zroić e ten sposób, że po mianie daty przy entry automatycznie pojawi
+// się znaczegi migracji, a w rozwijanym menu nie będzie opcji migrate
 //tą zmienną dodawć do headerów w fetchu
 
 /**
@@ -169,25 +170,92 @@ const createEntryFormHtml = () => {
     </div>`;
 }
 
-const initMonthlyLog = () => {
-    document.querySelector('#task-table').innerHTML = " ";
-    const currentYearAndMonth = `${new Date().getFullYear()}-${new Date().getMonth() + 1}`;
-    fetch(`http://localhost:3030/api/entries?month=${currentYearAndMonth}`)
-        .then(response => response.json())
-        .catch(new Error('Could not get any tasks'))
-        .then(tasks => {
-            for (const task of tasks.entries) {
-                createTaskHTML(task);
-            };
-            addListenersToSignificancyButtons();
-            addListenersToTypeAndStateButtons();
+const createNavBarForMonthlyAndDailyLog = (monthOrFullDate) => {
+    const html = createNavBarForMonthlyAndDailyLogHtml(monthOrFullDate);
+    const htmlToPut = htmlToElement(html);
+    putTaskIntoHTML(htmlToPut);
+    addListenersForMonthlyDailyNavbar();
+};
+
+const createNavBarForMonthlyAndDailyLogHtml = (monthOrFullDate) => {
+    return `
+          <tr class="nav-bar"> 
+            <td class="collapsing">
+                <div class="ui icon button" id="previous-day">
+                    <i class="arrow left icon"></i>
+                </div>
+            </td>
+            <td >
+            ${createChangeDateButton("", "new-log-date", " ", "date-picker")}
+            </td>
+            <td class="day-or-month center aligned"><h2>${monthOrFullDate}</h2></td>
+            <td class="collapsing">
+                 <div class="ui icon button" id="next-day">
+                    <i class="arrow right icon"></i>
+                </div>
+            </td>
+        </tr>
+    `;
+}
+
+
+const addListenersForMonthlyDailyNavbar = () => {
+    const previousButton = document.querySelector('#previous-day');
+    const nextButton = document.querySelector('#next-day');
+    const calendarButton = document.querySelector('#date-picker');
+
+    const dailyButton = document.querySelector('#daily-button');
+    const monthlyButton = document.querySelector('#monthly-button');
+    const currentDisplayedDate = new Date(document.querySelector('.day-or-month').textContent);
+
+
+    if (dailyButton.className.includes('active')) {
+        calendarButton.previousElementSibling.type = "date";
+        previousButton.addEventListener('click', (e) => {
+            e.stopPropagation();
+            e.preventDefault();
+            const previousDayDate = (new Date(currentDisplayedDate.setDate(currentDisplayedDate.getDate() - 1))).toJSON().slice(0, 10);
+            initDailyLogWithDate(previousDayDate);
         });
+        nextButton.addEventListener('click', (e) => {
+            e.stopPropagation();
+            e.preventDefault();
+            const nextDayDate = (new Date(currentDisplayedDate.setDate(currentDisplayedDate.getDate() + 1))).toJSON().slice(0, 10);
+            initDailyLogWithDate(nextDayDate);
+        });
+        calendarButton.addEventListener('click', (e) => {
+            e.stopPropagation();
+            e.preventDefault();
+            const newdate = calendarButton.previousElementSibling.value;
+            initDailyLogWithDate(newdate);
+        })
+    };
+    if (monthlyButton.className.includes('active')) {
+        calendarButton.previousElementSibling.type = "month";
+        previousButton.addEventListener('click', (e) => {
+            e.stopPropagation();
+            e.preventDefault();
+            const previousMonthDate = (new Date(currentDisplayedDate.setMonth(currentDisplayedDate.getMonth() - 1))).toJSON().slice(0, 7);
+            initMonthlyLogWithDate(previousMonthDate);
+        });
+        nextButton.addEventListener('click', (e) => {
+            e.stopPropagation();
+            e.preventDefault();
+            const nextMonthDate = (new Date(currentDisplayedDate.setMonth(currentDisplayedDate.getMonth() + 1))).toJSON().slice(0, 7);
+            initMonthlyLogWithDate(nextMonthDate);
+        });
+        calendarButton.addEventListener('click', (e) => {
+            e.stopPropagation();
+            e.preventDefault();
+            const newdate = calendarButton.previousElementSibling.value;
+            initMonthlyLogWithDate(newdate);
+        })
+    };
 };
 
 
 const initIrrelevant = () => {
     document.querySelector('#task-table').innerHTML = " ";
-    // clear all tasks
     fetch(`http://localhost:3030/api/entries`)
         .then(response => response.json())
         .catch(new Error('Could not get any tasks'))
@@ -199,13 +267,39 @@ const initIrrelevant = () => {
             };
             addListenersToSignificancyButtons();
             addListenersToTypeAndStateButtons();
+            addListenerToChangeTaskDateButton();
+        });
+};
+
+const initMonthlyLog = () => {
+    const currentYearAndMonth = `${new Date().getFullYear()}-${new Date().getMonth() + 1}`;
+    initMonthlyLogWithDate(currentYearAndMonth);
+};
+
+const initMonthlyLogWithDate = (currentYearAndMonth) => {
+    document.querySelector('#task-table').innerHTML = " ";
+    createNavBarForMonthlyAndDailyLog(currentYearAndMonth);
+    fetch(`http://localhost:3030/api/entries?month=${currentYearAndMonth}`)
+        .then(response => response.json())
+        .catch(new Error('Could not get any tasks'))
+        .then(tasks => {
+            for (const task of tasks.entries) {
+                createTaskHTML(task);
+            };
+            addListenersToSignificancyButtons();
+            addListenersToTypeAndStateButtons();
+            addListenerToChangeTaskDateButton();
         });
 };
 
 const initDailyLog = () => {
+    const todaysDate = new Date().toJSON().slice(0, 10);
+    initDailyLogWithDate(todaysDate);
+};
+
+const initDailyLogWithDate = (todaysDate) => {
     document.querySelector('#task-table').innerHTML = " ";
-    // clear all tasks
-    const todaysDate = new Date().toJSON().slice(0, 10)
+    createNavBarForMonthlyAndDailyLog(todaysDate);
     fetch(`http://localhost:3030/api/entries?ondate=${todaysDate}`)
         .then(response => response.json())
         .catch(new Error('Could not get any tasks'))
@@ -213,12 +307,11 @@ const initDailyLog = () => {
             for (const task of tasks.entries) {
                 createTaskHTML(task);
             };
-
-            // tasks.entries.forEach(task => );
             addListenersToSignificancyButtons();
             addListenersToTypeAndStateButtons();
+            addListenerToChangeTaskDateButton();
         });
-};
+}
 
 const initBacklog = () => {
     document.querySelector('#task-table').innerHTML = " ";
@@ -234,9 +327,27 @@ const initBacklog = () => {
             };
             addListenersToSignificancyButtons();
             addListenersToTypeAndStateButtons();
+            addListenerToChangeTaskDateButton();
         });
 };
 
+const addListenerToChangeTaskDateButton = () => {
+    const changeDateButtons = document.querySelectorAll('.accept-new-date');
+    changeDateButtons.forEach((button) => {
+        const changeStatus = (e) => {
+            e.stopPropagation();
+            e.preventDefault();
+            const entryId = button.parentElement.parentNode.parentNode.parentNode.parentNode.id;
+            const newdate = button.previousElementSibling.value;
+            const newDateBody = {
+                "taskState": "migrated",
+                "date": `${newdate}`
+            };
+            editEntry(entryId, newDateBody);
+        }
+        button.addEventListener('click', changeStatus);
+    });
+};
 
 const addListenersToSignificancyButtons = () => {
     const buttons = document.querySelectorAll('.signification .menu .item');
@@ -274,10 +385,6 @@ const addListenersToTypeAndStateButtons = () => {
     // states
     const incompleteBody = { "taskState": "incomplete" };//dac jako drugie klikniecie na complete czy jako oddzielna opcja w menu?
     const completeBody = { "taskState": "complete" };
-    const migratedBody = {
-        "taskState": "migrated"
-        // "date": new Date()
-    };
     const irrelevantBody = { "taskState": "irrelevant" };
     const scheduledBody = {
         "taskState": "scheduled",
@@ -302,16 +409,12 @@ const addListenersToTypeAndStateButtons = () => {
             if (button.className.includes('complete')) {
                 editEntry(entryId, completeBody);
             }
-            if (button.className.includes('migrated')) {//zmienić date
-                editEntry(entryId, migratedBody);
-            }
             if (button.className.includes('irrelevant')) {
                 editEntry(entryId, irrelevantBody);
             }
             if (button.className.includes('scheduled')) {
                 editEntry(entryId, scheduledBody);
             }
-            // delete
             if (button.className.includes('delete')) {
                 deleteEntry(entryId);
             }
@@ -323,14 +426,33 @@ const addListenersToTypeAndStateButtons = () => {
 const createTaskHTML = (task) => {
     const html = `
         <tr class="task" id=${task._id}> 
-            <td class=" collapsing signification">${createSignificationButtonMenu(createSignificationButton(task.significationType))}</td>
-            <td class=" collapsing type-state">${createTypeAndStateButtonMenu(createTypeAndStateButton(task.entryType, task.taskState))}</td>
+            <td class="collapsing signification">${createSignificationButtonMenu(createSignificationButton(task.significationType))}</td>
+            <td class="collapsing type-state">${createTypeAndStateButtonMenu(createTypeAndStateButton(task.entryType, task.taskState))}</td>
             <td class="description">${task.body}</td>
+            <td class="collapsing">${createChangeDateButton("date", "accept-new-date", "basic", " ")}</td>
         </tr>
         `;
     const element = htmlToElement(html);
     putTaskIntoHTML(element);
 };
+
+const createChangeDateButton = (pickerType, btnClass, iconType, btnId) => {
+    return `
+    <div class="ui ${iconType} simple icon top left dropdown button">
+        <i class="calendar alternate outline icon"></i>
+        <div class="menu">
+            <div class="header">Choose date</div>
+            <div class="item">
+                <input type="${pickerType}"></input>
+                <div class="ui basic icon button ${btnClass}" id="${btnId}">
+                    <i class="check icon"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+    `
+};
+
 
 const createSignificationButton = (type) => {
     switch (type) {
@@ -347,12 +469,12 @@ const createSignificationButtonMenu = (buttonIcon) => {
     return `
     <div class="ui basic simple icon top left dropdown button">
     <i class="${buttonIcon} icon"></i>
-    <div class="menu">
-        <div class="header">Signification type</div>
-        <div class="item priority"><i class="exclamation icon"></i>Important</div>
-        <div class="item inspiration"><i class="star icon"></i>Inspiration</div>
-        <div class="item none"><i class="icon"></i>None</div>
-    </div>
+        <div class="menu">
+            <div class="header">Signification type</div>
+            <div class="item priority"><i class="exclamation icon"></i>Important</div>
+            <div class="item inspiration"><i class="star icon"></i>Inspiration</div>
+            <div class="item none"><i class="icon"></i>None</div>
+        </div>
     </div>
     `
 }
@@ -360,18 +482,17 @@ const createSignificationButtonMenu = (buttonIcon) => {
 const createTypeAndStateButtonMenu = (buttonIcon) => {
     return `
     <div class="ui icon basic simple dropdown button">
-    <i class="${buttonIcon} icon"></i>
-    <div class="menu">
-        <div class="header">Type</div>
-        <div class="item task"><i class="circle icon"></i>Task</div>
-        <div class="item note"><i class="minus icon"></i>Note</div>
-        <div class="item event"><i class="circle outline icon"></i>Event</div>
-         <div class="header>State</div>
-        <div class="item complete"><i class="close icon"></i>Complete</div>
-        <div class="item migrated"><i class="chevron right icon"></i>Move to next day's log</div>
-        <div class="item scheduled"><i class="chevron left icon"></i>Move to backlog</div>
-        <div class="item irrelevant"><i class="ban icon"></i>Mark as irrelevant</div>
-        <div class="item delete"><i class="trash alternate icon"></i>Delete</div>
+        <i class="${buttonIcon} icon"></i>
+        <div class="menu">
+            <div class="header">Type</div>
+            <div class="item task"><i class="circle icon"></i>Task</div>
+            <div class="item note"><i class="minus icon"></i>Note</div>
+            <div class="item event"><i class="circle outline icon"></i>Event</div>
+            <div class="header">State</div>
+            <div class="item complete"><i class="close icon"></i>Complete</div>
+            <div class="item scheduled"><i class="chevron left icon"></i>Move to backlog</div>
+            <div class="item irrelevant"><i class="ban icon"></i>Mark as irrelevant</div>
+            <div class="item delete"><i class="trash alternate icon"></i>Delete</div>
         </div>
     </div>
     `
@@ -388,7 +509,7 @@ const createTypeAndStateButton = (type, state) => {
         return "chevron left";
     }
     if (state === "irrelevant") {
-        return "ban";//what to do?
+        return "ban";
     }
     if (type === "task") {
         return "circle";
@@ -445,12 +566,11 @@ const logInit = () => {
     if (monthlyButton.className.includes('active')) initMonthlyLog();
     if (backlogButton.className.includes('active')) initBacklog();
     if (irrelevantButton.className.includes('active')) initIrrelevant();
-
 };
 
 const wind = window.location.href;
 if (wind.includes('log.html')) {
-    console.log('dailylog init')
+    // console.log('log init')
     addListenersToMenuButtons();
     logInit();
 };
