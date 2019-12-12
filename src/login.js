@@ -14,7 +14,7 @@ function handleLogout() {
 
 function handleLogin(event) {
   event.preventDefault();
-  const name = document.querySelector('input[type=text]').value;
+  const email = document.querySelector('input[type=text]').value;
   const password = document.querySelector('input[type=password]').value;
 
   fetch('http://localhost:3030/user/login', {
@@ -22,7 +22,7 @@ function handleLogin(event) {
     headers: {
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify({ name, password })
+    body: JSON.stringify({ email, password })
   })
     .then((resp) => resp.json())
     .then(json => {
