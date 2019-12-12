@@ -1,26 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>Register form</title>
     <link rel="stylesheet" type="text/css"
-          href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css">
+        href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css">
     <link rel="stylesheet" type="text/css" href="main.css">
 
 </head>
+
 <body>
-<br>
-<br>
-<br>
-<div class="ui middle aligned center aligned grid">
-    <div class="column">
-        <h1 class="ui blue header">
-            <div class="content">
-                Register
-            </div>
-        </h1>
-        <form class="ui large form" method="post">
-            <div class="ui segment">
+    <!-- navbar -->
+    <div class="ui inverted menu">
+        <div class="header item">BuJoApp</div>
+        <!-- <div class="active item">Link</div> -->
+        <div class="right menu">
+            <!-- this will appear only if user is not loged in -->
+            <a class="item" onclick="location.href='login.html'"> Log in </a>
+            <a class="item" onclick="location.href='register.html'">Sign up</a>
+        </div>
+    </div>
+    <!-- main content -->
+    <div class="ui container" id="register-form">
+        <div class="ui huge center aligned header">Sign up</div>
+        <div class="ui top attached segment">
+            <form class="ui large form">
+                <!-- <div class="ui segment"> -->
                 <div class="field">
                     <div class="ui left icon input">
                         <i class="user icon"></i>
@@ -41,13 +47,47 @@
                 </div>
                 <button class="ui large button submit blue loginbtn">Register</button>
                 <button class="ui large button clear resetbtn ">Clear form</button>
+                <!-- </div> -->
+                <!--            <div class="ui error message"></div>-->
+            </form>
+        </div>
+        <div class="ui bottom attached segment">
+            <div class="ui message">
+                Already have an account? <a href="login.html">Sign in</a>.
             </div>
-            <!--            <div class="ui error message"></div>-->
-        </form>
-        <div class="ui message">
-            Already have an account? <a href="login.html">Sign in</a>.
+        </div>
+
+    </div>
+    <!-- footer -->
+    <div class="ui inverted vertical footer segment">
+        <div class="ui container">
+            <div class="ui stackable divided equal height stackable grid">
+                <div class="three wide column">
+                    <h4 class="ui inverted header">
+                        <div class="ui inverted link list">
+                            <a href="/index.html" class="item">About us</a>
+                        </div>
+                    </h4>
+                </div>
+                <div class="six wide column">
+                    <h4 class="ui inverted header">
+                        <div class="ui inverted link list">
+                            <a href="https://bulletjournal.com/" target="_blank" class="item">Read more abaout Bullet
+                                Jurnal</a>
+                        </div>
+                    </h4>
+                </div>
+                <div class="right floated six wide column">
+                    <h4 class="ui inverted header">
+                        <div class="ui inverted link list">
+                            <a href="#" class="item">Contact</a>
+                        </div>
+                    </h4>
+                </div>
+            </div>
+            <!-- <div class="ui stackable stackable grid right floating">Copyright 2019 BuJoApp</div> -->
         </div>
     </div>
-</div>
 </body>
+
 </html>
