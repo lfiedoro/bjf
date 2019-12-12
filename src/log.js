@@ -163,7 +163,7 @@ const createEntryFormHtml = () => {
                     </div>
                     <div class="inline field">
                         <label>Date </label>
-                        <input class="entry-date" type="date" name="date"></input>
+                        <input class="entry-date" type="date" name="date" min="${new Date().toJSON().slice(0, 10)}"></input>
                     </div>
                 </div>
                 <button class="ui large button submit blue loginbtn">Add</button>
@@ -448,13 +448,13 @@ const createTaskHTML = (task) => {
             <td class="collapsing signification">${createSignificationButtonMenu(createSignificationButton(task.significationType))}</td>
             <td class="collapsing type-state">${createTypeAndStateButtonMenu(createTypeAndStateButton(task.entryType, task.taskState))}</td>
             <td class="description">${task.body}</td>
-            <td class="collapsing">${createChangeDateButton("date", "accept-new-date", "basic", " ")}</td>
+            <td class="collapsing">${createChangeDateButton(`date" min="${new Date().toJSON().slice(0, 10)}`, "accept-new-date", "basic", " ")}</td>
         </tr>
         `;
     const element = htmlToElement(html);
     putTaskIntoHTML(element);
 };
-
+// check if thin min datevalue works
 const createChangeDateButton = (pickerType, btnClass, iconType, btnId) => {
     return `
     <div class="ui ${iconType} simple icon top left dropdown button">
