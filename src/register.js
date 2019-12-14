@@ -12,10 +12,10 @@ function handleSignUp(event) {
     event.preventDefault();
     const email = document.querySelector('input[type=email]').value;
     const name = document.querySelector('input[type=text]').value;
-    const password = document.querySelectorAll('input[type=password]');
-    // const confirmPassword = document.querySelector('input[type=password]').value;
-    console.log(password);
-    if (password[0].value != password[1].value) {
+    const passwords = document.querySelectorAll('input[type=password]');
+    const password = passwords[0].value;
+    const otherPassword = passwords[1].value;
+    if (password === otherPassword) {
         fetch('http://localhost:3030/user/signup', {
             method: 'POST',
             headers: {
@@ -23,7 +23,6 @@ function handleSignUp(event) {
             },
             body: JSON.stringify({ email, password, name })
         })
-            .then((resp) => resp.json())
             .then(() => {
                 window.location.href = 'login.html';
             })
