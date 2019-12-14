@@ -16,7 +16,6 @@
         <div class="header item">BuJoApp</div>
         <!-- <div class="active item">Link</div> -->
         <div class="right menu">
-            <!-- this will appear only if user is not loged in -->
             <a class="item" onclick="location.href='login.html'"> Log in </a>
             <a class="item" onclick="location.href='register.html'">Sign up</a>
         </div>
@@ -29,30 +28,30 @@
                 <div class="field">
                     <div class="ui left icon input">
                         <i class="user icon"></i>
-                        <input type="text" name="name" placeholder="Name">
+                        <input type="text" name="name" placeholder="Name" minlength="3" maxlength="30">
                     </div>
                 </div>
                 <div class="field">
                     <div class="ui left icon input">
                         <i class="user icon"></i>
-                        <input type="email" name="email" placeholder="E-mail address">
+                        <input type="email" name="email" placeholder="E-mail address" minlength="5" maxlength="100">
                     </div>
                 </div>
                 <div class="field">
                     <div class="ui left icon input">
                         <i class="lock icon"></i>
-                        <input type="password" name="password" placeholder="Password">
+                        <input type="password" name="password" placeholder="Password" minlength="5">
                     </div>
                 </div>
                 <div class="field">
                     <div class="ui left icon input">
                         <i class="lock icon"></i>
-                        <input type="password" name="password" placeholder="Repeat Password">
+                        <input type="password" name="password" placeholder="Confirm Password" minlength="5">
                     </div>
                 </div>
                 <button class="ui large button submit blue registerbtn">Register</button>
                 <button class="ui large button clear resetbtn ">Clear form</button>
-                <div class="ui visible error message" id="error-field"></div>
+                <div class="ui error message" id="error-field"></div>
             </form>
         </div>
         <div class="ui bottom attached segment">

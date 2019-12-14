@@ -22,8 +22,13 @@ function htmlToElements(html) {
     return template.content.childNodes;
 }
 
+//todo: add this method
+const handleDeleteUser = () => {
+    console.log('usuwam usera');
+};
 
 const addListenersToMenuButtons = () => {
+    const deleteAccountButton = document.querySelector('.deleteAccount');
     const menuButtons = document.querySelectorAll('#log-buttons .item');
     const dailyButton = document.querySelector('#daily-button');
     const monthlyButton = document.querySelector('#monthly-button');
@@ -35,7 +40,12 @@ const addListenersToMenuButtons = () => {
     addListenerToOneMenuButton(monthlyButton, initMonthlyLog, menuButtons);
     addListenerToOneMenuButton(backlogButton, initBacklog, menuButtons);
     addListenerToOneMenuButton(irrelevantButton, initIrrelevant, menuButtons);
-    addListenerToOneMenuButton(addNewEntryButton, initEntryForm, menuButtons)
+    addListenerToOneMenuButton(addNewEntryButton, initEntryForm, menuButtons);
+    deleteAccountButton.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        handleDeleteUser();
+    });
 }
 const addListenerToOneMenuButton = (buttonName, callbackFunc, allMenuButtons) => {
     buttonName.addEventListener('click', (e) => {
