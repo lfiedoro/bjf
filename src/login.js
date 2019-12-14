@@ -1,3 +1,5 @@
+import bullet from './api/BullerBack'
+
 const loginButton = document.querySelector('.loginbtn');
 if (loginButton) {
   loginButton.addEventListener('click', (event) => handleLogin(event));
@@ -12,38 +14,34 @@ function handleLogout() {
   window.location.href = '/login.html';
 }
 
-function handleLogin(event) {
+async function handleLogin(event) {
   event.preventDefault();
   const email = document.querySelector('input[type=email]').value;
   const password = document.querySelector('input[type=password]').value;
 
-  fetch('http://bulletjournal-api.herokuapp.com/user/login', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({ email, password })
-  })
-    .then((resp) => {
-      console.log(resp);
-      if (resp.status === 403 || resp.status === 401) {
-        displayErrorMessage(resp.status)
-        console.log('User not found')
-      }
-      return resp;
+  try {
+    const resp = await bullet.post('/user/login', {
+      email,
+      password
     })
-    .then((resp) =>
-      resp.json())
-    .then(json => {
-      const { token } = json
-      if (token) {
-        sessionStorage.setItem('inMemoryToken', token);
-        window.location.href = 'log.html';
-      } else {
-        console.log('something went wrong')
-      }
-    })
-    .catch(err => console.log(err));
+
+    if (resp.status === 403 || resp.status === 401) {
+      displayErrorMessage(resp.status)
+      console.log('User not found')
+    }
+    json = await resp.json()
+
+    const { token } = json
+    if (token) {
+      sessionStorage.setItem('inMemoryToken', token);
+      // window.location.href = 'log.html';
+    } else {
+      console.log('something went wrong')
+    }
+  }
+  catch {
+    console.log(new Error(err))
+  }
 }
 
 const displayErrorMessage = (statusCode) => {
