@@ -14,7 +14,7 @@ function handleLogout() {
 
 function handleLogin(event) {
   event.preventDefault();
-  const email = document.querySelector('input[type=text]').value;
+  const email = document.querySelector('input[type=email]').value;
   const password = document.querySelector('input[type=password]').value;
 
   fetch('http://localhost:3030/user/login', {
@@ -24,13 +24,30 @@ function handleLogin(event) {
     },
     body: JSON.stringify({ email, password })
   })
-    .then((resp) => resp.json())
+    .then((resp) => {
+      if (resp.status === 403 || resp.status === 401) {
+        displayErrorMessage(resp.status)
+        console.log('User not found')
+      }
+      return resp;
+    })
+    .then((resp) =>
+      resp.json())
     .then(json => {
       const { token } = json
       if (token) {
         sessionStorage.setItem('inMemoryToken', token);
         window.location.href = 'log.html';
+      } else {
+        console.log('something went wrong')
       }
     })
     .catch(err => console.log(err));
+}
+
+const displayErrorMessage = (statusCode) => {
+  const errorField = document.querySelector('#error-field');
+  errorField.classList.add('visible');
+  let message = 'Wrong password and/or email adress';
+  errorField.innerHTML = `<div>${message}</div>`;
 }

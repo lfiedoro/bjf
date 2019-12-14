@@ -2,6 +2,8 @@ require('normalize.css/normalize.css');
 require('./main.css')
 require('./login.js')
 require('./log.js');
+require('./register.js')
+
 
 
 // const main = () => {
@@ -20,3 +22,5 @@ require('./log.js');
 //     };
 // };
 // main();
+
+// export let APIurl = 'http://localhost:3030';

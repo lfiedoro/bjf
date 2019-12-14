@@ -1,7 +1,5 @@
-// czy nie lepiej zroić e ten sposób, że po mianie daty przy entry automatycznie pojawi
-// się znaczegi migracji, a w rozwijanym menu nie będzie opcji migrate
-//tą zmienną dodawć do headerów w fetchu
-token = undefined;
+
+let token = undefined;
 
 
 /**
@@ -49,7 +47,7 @@ const addListenerToOneMenuButton = (buttonName, callbackFunc, allMenuButtons) =>
     })
 }
 const addListenersToFormButtons = () => {
-    let sendBtn = document.querySelector('.loginbtn');
+    let sendBtn = document.querySelector('.sendbtn');
     if (sendBtn) sendBtn.addEventListener('click', send);
     let clearBtn = document.querySelector('.resetbtn');
     if (clearBtn) clearBtn.addEventListener('click', reset);
@@ -97,7 +95,7 @@ const send = (e) => {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + token
+            'x-access-token': token
         },
         body: JSON.stringify(body),
     }).then(resp => console.log(resp))
@@ -166,21 +164,34 @@ const createEntryFormHtml = () => {
                         <input class="entry-date" type="date" name="date" min="${new Date().toJSON().slice(0, 10)}"></input>
                     </div>
                 </div>
-                <button class="ui large button submit blue loginbtn">Add</button>
+                <button class="ui large button submit blue sendbtn">Add</button>
                 <button class="ui large button clear resetbtn ">Clear</button>
             </form>
         </div>
     </div>`;
 }
 
-const createNavBarForMonthlyAndDailyLog = (monthOrFullDate) => {
-    const html = createNavBarForMonthlyAndDailyLogHtml(monthOrFullDate);
+const createNavBarForMonthlyAndDailyLog = (date) => {
+    const html = createNavBarForMonthlyAndDailyLogHtml(date);
     const htmlToPut = htmlToElement(html);
     putTaskIntoHTML(htmlToPut);
     addListenersForMonthlyDailyNavbar();
 };
 
-const createNavBarForMonthlyAndDailyLogHtml = (monthOrFullDate) => {
+const createNavBarForMonthlyAndDailyLogHtml = (date) => {
+    const dailyButton = document.querySelector('#daily-button');
+    const monthlyButton = document.querySelector('#monthly-button');
+
+    let headerToDisplay = 'dupa';
+
+    if (dailyButton.className.includes('active')) {
+        let weekDays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+        headerToDisplay = `${weekDays[date.getDay()]}  ${date.getDate()}.${date.getMonth() + 1}.${date.getFullYear()}`;
+    }
+    if (monthlyButton.className.includes('active')) {
+        let months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+        headerToDisplay = `${months[date.getMonth()]} ${date.getFullYear()}`;
+    }
     return `
           <tr class="nav-bar"> 
             <td class="collapsing">
@@ -191,7 +202,7 @@ const createNavBarForMonthlyAndDailyLogHtml = (monthOrFullDate) => {
             <td >
             ${createChangeDateButton("", "new-log-date", " ", "date-picker")}
             </td>
-            <td class="day-or-month center aligned"><h2>${monthOrFullDate}</h2></td>
+            <td class="center aligned"><h2 class="day-or-month" style="display: none">${date}</h2><h2>${headerToDisplay}</h2></td>
             <td class="collapsing">
                  <div class="ui icon button" id="next-day">
                     <i class="arrow right icon"></i>
@@ -199,6 +210,13 @@ const createNavBarForMonthlyAndDailyLogHtml = (monthOrFullDate) => {
             </td>
         </tr>
     `;
+}
+
+const getNextOrPreviousDate = (monthDiff, dayDiff) => {
+    let currentDisplayedDate = new Date(document.querySelector('.day-or-month').textContent);
+    let newDate = new Date(currentDisplayedDate.setMonth(currentDisplayedDate.getMonth() + monthDiff, currentDisplayedDate.getDate() + dayDiff));
+    console.log(newDate);
+    return newDate;
 }
 
 
@@ -209,7 +227,6 @@ const addListenersForMonthlyDailyNavbar = () => {
 
     const dailyButton = document.querySelector('#daily-button');
     const monthlyButton = document.querySelector('#monthly-button');
-    const currentDisplayedDate = new Date(document.querySelector('.day-or-month').textContent);
 
 
     if (dailyButton.className.includes('active')) {
@@ -217,20 +234,19 @@ const addListenersForMonthlyDailyNavbar = () => {
         previousButton.addEventListener('click', (e) => {
             e.stopPropagation();
             e.preventDefault();
-            const previousDayDate = (new Date(currentDisplayedDate.setDate(currentDisplayedDate.getDate() - 1))).toJSON().slice(0, 10);
-            initDailyLogWithDate(previousDayDate);
+            initDailyLogWithDate(getNextOrPreviousDate(0, -1));
         });
         nextButton.addEventListener('click', (e) => {
             e.stopPropagation();
             e.preventDefault();
-            const nextDayDate = (new Date(currentDisplayedDate.setDate(currentDisplayedDate.getDate() + 1))).toJSON().slice(0, 10);
-            initDailyLogWithDate(nextDayDate);
+            initDailyLogWithDate(getNextOrPreviousDate(0, 1));
+
         });
         calendarButton.addEventListener('click', (e) => {
             e.stopPropagation();
             e.preventDefault();
             const newdate = calendarButton.previousElementSibling.value;
-            initDailyLogWithDate(newdate);
+            initDailyLogWithDate(new Date(newdate));
         })
     };
     if (monthlyButton.className.includes('active')) {
@@ -238,20 +254,19 @@ const addListenersForMonthlyDailyNavbar = () => {
         previousButton.addEventListener('click', (e) => {
             e.stopPropagation();
             e.preventDefault();
-            const previousMonthDate = (new Date(currentDisplayedDate.setMonth(currentDisplayedDate.getMonth() - 1))).toJSON().slice(0, 7);
-            initMonthlyLogWithDate(previousMonthDate);
+            initMonthlyLogWithDate(getNextOrPreviousDate(-1, 0));
+
         });
         nextButton.addEventListener('click', (e) => {
             e.stopPropagation();
             e.preventDefault();
-            const nextMonthDate = (new Date(currentDisplayedDate.setMonth(currentDisplayedDate.getMonth() + 1))).toJSON().slice(0, 7);
-            initMonthlyLogWithDate(nextMonthDate);
+            initMonthlyLogWithDate(getNextOrPreviousDate(1, 0));
         });
         calendarButton.addEventListener('click', (e) => {
             e.stopPropagation();
             e.preventDefault();
             const newdate = calendarButton.previousElementSibling.value;
-            initMonthlyLogWithDate(newdate);
+            initMonthlyLogWithDate(new Date(newdate));
         })
     };
 };
@@ -261,7 +276,7 @@ const initIrrelevant = () => {
     document.querySelector('#task-table').innerHTML = " ";
     fetch(`http://localhost:3030/api/entries`, {
         headers: {
-            'Authorization': 'Bearer ' + token
+            'x-access-token': token
         },
     })
         .then(response => response.json())
@@ -279,16 +294,17 @@ const initIrrelevant = () => {
 };
 
 const initMonthlyLog = () => {
-    const currentYearAndMonth = `${new Date().getFullYear()}-${new Date().getMonth() + 1}`;
-    initMonthlyLogWithDate(currentYearAndMonth);
+    const date = new Date();
+    initMonthlyLogWithDate(date);
 };
 
-const initMonthlyLogWithDate = (currentYearAndMonth) => {
+const initMonthlyLogWithDate = (todaysDate) => {
     document.querySelector('#task-table').innerHTML = " ";
-    createNavBarForMonthlyAndDailyLog(currentYearAndMonth);
-    fetch(`http://localhost:3030/api/entries?month=${currentYearAndMonth}`, {
+    createNavBarForMonthlyAndDailyLog(todaysDate);
+    fetch(`http://localhost:3030/api/entries?month=${todaysDate.getFullYear()}-${todaysDate.getMonth() + 1}`, {
         headers: {
-            'Authorization': 'Bearer ' + token
+            'Content-Type': 'Application/json',
+            'x-access-token': token
         }
     })
         .then(response => response.json())
@@ -304,16 +320,27 @@ const initMonthlyLogWithDate = (currentYearAndMonth) => {
 };
 
 const initDailyLog = () => {
-    const todaysDate = new Date().toJSON().slice(0, 10);
+    const todaysDate = new Date();
     initDailyLogWithDate(todaysDate);
 };
 
 const initDailyLogWithDate = (todaysDate) => {
+    // let month = todaysDate.getMonth().length === 1 ? `0${todaysDate.getMonth()}` : todaysDate.getMonth();
+    let month = todaysDate.getMonth();
+
+    // let day = todaysDate.getDate().length === 1 ? `0${todaysDate.getDate()}` : todaysDate.getDate();
+    let day = todaysDate.getDate();
+
+    let fullDate = `${todaysDate.getFullYear()}-${month + 1}-${day}`;
+    console.log(fullDate);
+
     document.querySelector('#task-table').innerHTML = " ";
     createNavBarForMonthlyAndDailyLog(todaysDate);
-    fetch(`http://localhost:3030/api/entries?ondate=${todaysDate}`, {
+    fetch(`http://localhost:3030/api/entries?ondate=${fullDate}`, {
+        method: 'GET',
         headers: {
-            'Authorization': 'Bearer ' + token
+            'Content-Type': 'Application/json',
+            'x-access-token': token
         }
     })
         .then(response => response.json())
@@ -330,10 +357,10 @@ const initDailyLogWithDate = (todaysDate) => {
 
 const initBacklog = () => {
     document.querySelector('#task-table').innerHTML = " ";
-    // clear all tasks
     fetch(`http://localhost:3030/api/entries`, {
         headers: {
-            'Authorization': 'Bearer ' + token
+            'Content-Type': 'Application/json',
+            'x-access-token': token
         }
     })
         .then(response => response.json())
@@ -396,12 +423,9 @@ const addListenersToSignificancyButtons = () => {
 
 const addListenersToTypeAndStateButtons = () => {
     const buttons = document.querySelectorAll('.type-state .menu .item');
-
-    // types
     const eventBody = { "entryType": "event" };
     const noteBody = { "entryType": "note" };
     const taskBody = { "entryType": "task" };
-    // states
     const incompleteBody = { "taskState": "incomplete" };//dac jako drugie klikniecie na complete czy jako oddzielna opcja w menu?
     const completeBody = { "taskState": "complete" };
     const irrelevantBody = { "taskState": "irrelevant" };
@@ -454,7 +478,6 @@ const createTaskHTML = (task) => {
     const element = htmlToElement(html);
     putTaskIntoHTML(element);
 };
-// check if thin min datevalue works
 const createChangeDateButton = (pickerType, btnClass, iconType, btnId) => {
     return `
     <div class="ui ${iconType} simple icon top left dropdown button">
@@ -553,12 +576,11 @@ const editEntry = (entryId, body) => {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + token
+            'x-access-token': token
         },
         body: JSON.stringify(body),
     }).then(resp => {
         console.log(resp);
-        // document.location.reload();
         logInit();
     })
         .catch(err => console.log(err));
@@ -568,11 +590,10 @@ const deleteEntry = (entryId) => {
         method: 'DELETE',
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + token
+            'x-access-token': token
         },
     }).then(resp => {
         console.log(resp);
-        // document.location.reload();
         logInit();
     })
         .catch(err => console.log(err));
@@ -596,7 +617,8 @@ if (wind.includes('log.html')) {
         console.log('No JWT token!');
         window.location.href = 'login.html';
     }
-    console.log('dailylog init with');
     addListenersToMenuButtons();
+
+    console.log('dailylog init with');
     logInit();
 };
