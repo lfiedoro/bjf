@@ -1,7 +1,6 @@
 
 let token = undefined;
 
-
 /**
  * @param {String} HTML representing a single element
  * @return {Element}
@@ -186,6 +185,7 @@ const createNavBarForMonthlyAndDailyLog = (date) => {
     const htmlToPut = htmlToElement(html);
     putTaskIntoHTML(htmlToPut);
     addListenersForMonthlyDailyNavbar();
+    activateCalendar();
 };
 
 const createNavBarForMonthlyAndDailyLogHtml = (date) => {
@@ -210,9 +210,9 @@ const createNavBarForMonthlyAndDailyLogHtml = (date) => {
                 </div>
             </td>
             <td >
-            ${createChangeDateButton("", "new-log-date", " ", "date-picker")}
+            ${createChangeDateButton("", "new-log-date", "activate-log-cal", "date-picker")}
             </td>
-            <td class="center aligned"><h2 class="day-or-month" style="display: none">${date}</h2><h2>${headerToDisplay}</h2></td>
+            <td class="center aligned"><div class="day-or-month" style="display: none">${date}</div><h2>${headerToDisplay}</h2></td>
             <td class="collapsing">
                  <div class="ui icon button" id="next-day">
                     <i class="arrow right icon"></i>
@@ -240,7 +240,7 @@ const addListenersForMonthlyDailyNavbar = () => {
 
 
     if (dailyButton.className.includes('active')) {
-        calendarButton.previousElementSibling.type = "date";
+        calendarButton.nextElementSibling.lastElementChild.type = "date";
         previousButton.addEventListener('click', (e) => {
             e.stopPropagation();
             e.preventDefault();
@@ -255,12 +255,16 @@ const addListenersForMonthlyDailyNavbar = () => {
         calendarButton.addEventListener('click', (e) => {
             e.stopPropagation();
             e.preventDefault();
-            const newdate = calendarButton.previousElementSibling.value;
-            initDailyLogWithDate(new Date(newdate));
+            const newDate = calendarButton.nextElementSibling.lastElementChild.value;
+            if (newDate) {
+                initDailyLogWithDate(new Date(newDate));
+            } else {
+                initDailyLog();
+            }
         })
     };
     if (monthlyButton.className.includes('active')) {
-        calendarButton.previousElementSibling.type = "month";
+        calendarButton.nextElementSibling.lastElementChild.type = "month";
         previousButton.addEventListener('click', (e) => {
             e.stopPropagation();
             e.preventDefault();
@@ -275,8 +279,12 @@ const addListenersForMonthlyDailyNavbar = () => {
         calendarButton.addEventListener('click', (e) => {
             e.stopPropagation();
             e.preventDefault();
-            const newdate = calendarButton.previousElementSibling.value;
-            initMonthlyLogWithDate(new Date(newdate));
+            const newDate = calendarButton.nextElementSibling.lastElementChild.value;
+            if (newDate) {
+                initMonthlyLogWithDate(new Date(newDate));
+            } else {
+                initMonthlyLog();
+            }
         })
     };
 };
@@ -335,12 +343,8 @@ const initDailyLog = () => {
 };
 
 const initDailyLogWithDate = (todaysDate) => {
-    // let month = todaysDate.getMonth().length === 1 ? `0${todaysDate.getMonth()}` : todaysDate.getMonth();
     let month = todaysDate.getMonth();
-
-    // let day = todaysDate.getDate().length === 1 ? `0${todaysDate.getDate()}` : todaysDate.getDate();
     let day = todaysDate.getDate();
-
     let fullDate = `${todaysDate.getFullYear()}-${month + 1}-${day}`;
     console.log(fullDate);
 
@@ -388,22 +392,32 @@ const initBacklog = () => {
 };
 
 const addListenerToChangeTaskDateButton = () => {
-    const changeDateButtons = document.querySelectorAll('.accept-new-date');
-    changeDateButtons.forEach((button) => {
+    const openButtons = document.querySelectorAll('.activate-task-cal');
+
+    openButtons.forEach((button) => {
+        const acceptButton = button.nextElementSibling;
+        const calendar = acceptButton.nextElementSibling;
+        button.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            calendar.style.display = "";
+            acceptButton.style.display = "";
+        });
         const changeStatus = (e) => {
             e.stopPropagation();
             e.preventDefault();
-            const entryId = button.parentElement.parentNode.parentNode.parentNode.parentNode.id;
-            const newdate = button.previousElementSibling.value;
+            const entryId = button.parentElement.parentElement.parentElement.id;
+            const newdate = button.nextElementSibling.nextElementSibling.lastElementChild.value;
             const newDateBody = {
                 "taskState": "migrated",
                 "date": `${newdate}`
             };
             editEntry(entryId, newDateBody);
         }
-        button.addEventListener('click', changeStatus);
+        acceptButton.addEventListener('click', changeStatus);
     });
 };
+
 
 const addListenersToSignificancyButtons = () => {
     const buttons = document.querySelectorAll('.signification .menu .item');
@@ -482,29 +496,44 @@ const createTaskHTML = (task) => {
             <td class="collapsing signification">${createSignificationButtonMenu(createSignificationButton(task.significationType))}</td>
             <td class="collapsing type-state">${createTypeAndStateButtonMenu(createTypeAndStateButton(task.entryType, task.taskState))}</td>
             <td class="description">${task.body}</td>
-            <td class="collapsing">${createChangeDateButton(`date" min="${new Date().toJSON().slice(0, 10)}`, "accept-new-date", "basic", " ")}</td>
+            <td class="collapsing">${createChangeDateButton(`date" min="${new Date().toJSON().slice(0, 10)}`, "accept-new-date", "basic activate-task-cal", `btn-${task._id}`)}</td>
         </tr>
         `;
     const element = htmlToElement(html);
+
     putTaskIntoHTML(element);
 };
+
+
+
 const createChangeDateButton = (pickerType, btnClass, iconType, btnId) => {
     return `
-    <div class="ui ${iconType} simple icon top left dropdown button">
-        <i class="calendar alternate outline icon"></i>
-        <div class="menu">
-            <div class="header">Choose date</div>
-            <div class="item">
+    <div>
+        <div class="ui ${iconType} icon button">
+            <i class="calendar alternate outline icon"></i>
+        </div>
+        <div class="ui basic icon button ${btnClass}" id="${btnId}" style="display: none">
+                <i class="check icon"></i>
+        </div>
+        <div class="date-picker-container" style="display: none">
                 <input type="${pickerType}"></input>
-                <div class="ui basic icon button ${btnClass}" id="${btnId}">
-                    <i class="check icon"></i>
-                </div>
-            </div>
+               
         </div>
     </div>
     `
 };
 
+const activateCalendar = () => {
+    const button = document.querySelector('.activate-log-cal');
+    const calendar = document.querySelector('.date-picker-container');
+    const acceptButton = document.querySelector('#date-picker');
+    button.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        calendar.style.display = "";
+        acceptButton.style.display = "";
+    })
+}
 
 const createSignificationButton = (type) => {
     switch (type) {

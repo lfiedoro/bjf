@@ -25,6 +25,7 @@ function handleLogin(event) {
     body: JSON.stringify({ email, password })
   })
     .then((resp) => {
+      console.log(resp);
       if (resp.status === 403 || resp.status === 401) {
         displayErrorMessage(resp.status)
         console.log('User not found')
