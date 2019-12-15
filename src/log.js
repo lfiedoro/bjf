@@ -21,9 +21,8 @@ function htmlToElements(html) {
     return template.content.childNodes;
 }
 
-//todo: add this method
 const handleDeleteUser = () => {
-    console.log('usuwam usera');
+    alert('We do not support deleting account yet :(. You have to stay with us for ever....')
 };
 
 const addListenersToMenuButtons = () => {
@@ -100,7 +99,7 @@ const send = (e) => {
         "body": description
     };
 
-    fetch('http://localhost:3030/api/entries/', {
+    fetch('http://bulletjournal-api.herokuapp.com/api/entries/', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -292,7 +291,7 @@ const addListenersForMonthlyDailyNavbar = () => {
 
 const initIrrelevant = () => {
     document.querySelector('#task-table').innerHTML = " ";
-    fetch(`http://localhost:3030/api/entries`, {
+    fetch(`http://bulletjournal-api.herokuapp.com/api/entries`, {
         headers: {
             'x-access-token': token
         },
@@ -319,7 +318,7 @@ const initMonthlyLog = () => {
 const initMonthlyLogWithDate = (todaysDate) => {
     document.querySelector('#task-table').innerHTML = " ";
     createNavBarForMonthlyAndDailyLog(todaysDate);
-    fetch(`http://localhost:3030/api/entries?month=${todaysDate.getFullYear()}-${todaysDate.getMonth() + 1}`, {
+    fetch(`http://bulletjournal-api.herokuapp.com/api/entries?month=${todaysDate.getFullYear()}-${todaysDate.getMonth() + 1}`, {
         headers: {
             'Content-Type': 'Application/json',
             'x-access-token': token
@@ -350,7 +349,7 @@ const initDailyLogWithDate = (todaysDate) => {
 
     document.querySelector('#task-table').innerHTML = " ";
     createNavBarForMonthlyAndDailyLog(todaysDate);
-    fetch(`http://localhost:3030/api/entries?ondate=${fullDate}`, {
+    fetch(`http://bulletjournal-api.herokuapp.com/api/entries?ondate=${fullDate}`, {
         method: 'GET',
         headers: {
             'Content-Type': 'Application/json',
@@ -371,7 +370,7 @@ const initDailyLogWithDate = (todaysDate) => {
 
 const initBacklog = () => {
     document.querySelector('#task-table').innerHTML = " ";
-    fetch(`http://localhost:3030/api/entries`, {
+    fetch(`http://bulletjournal-api.herokuapp.com/api/entries`, {
         headers: {
             'Content-Type': 'Application/json',
             'x-access-token': token
@@ -611,7 +610,7 @@ const putTaskIntoHTML = (taskHTML) => {
 const editEntry = (entryId, body) => {
     console.log(body);
     console.log(entryId);
-    fetch(`http://localhost:3030/api/entries/${entryId}`, {
+    fetch(`http://bulletjournal-api.herokuapp.com/api/entries/${entryId}`, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
@@ -625,7 +624,7 @@ const editEntry = (entryId, body) => {
         .catch(err => console.log(err));
 };
 const deleteEntry = (entryId) => {
-    fetch(`http://localhost:3030/api/entries/${entryId}`, {
+    fetch(`http://bulletjournal-api.herokuapp.com/api/entries/${entryId}`, {
         method: 'DELETE',
         headers: {
             'Content-Type': 'application/json',

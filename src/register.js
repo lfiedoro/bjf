@@ -14,9 +14,8 @@ function handleSignUp(event) {
     const passwords = document.querySelectorAll('input[type=password]');
     const password = passwords[0].value;
     const otherPassword = passwords[1].value;
-    // validateForm(email, passwords, name);
     if (password === otherPassword) {
-        fetch('http://localhost:3030/user/signup', {
+        fetch('http://bulletjournal-api.herokuapp.com/user/signup', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

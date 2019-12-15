@@ -17,7 +17,7 @@ function handleLogin(event) {
   const email = document.querySelector('input[type=email]').value;
   const password = document.querySelector('input[type=password]').value;
 
-  fetch('http://localhost:3030/user/login', {
+  fetch('http://bulletjournal-api.herokuapp.com/user/login', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
