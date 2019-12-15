@@ -200,7 +200,7 @@ const createNavBarForMonthlyAndDailyLogHtml = date => {
     const dailyButton = document.querySelector('#daily-button');
     const monthlyButton = document.querySelector('#monthly-button');
 
-    let headerToDisplay = 'dupa';
+    let headerToDisplay = '';
 
     if (dailyButton.className.includes('active')) {
         let weekDays = [
