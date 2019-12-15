@@ -1,4 +1,4 @@
-
+import bullet from './api/BullerBack'
 let token = undefined;
 
 /**
@@ -91,7 +91,7 @@ const send = (e) => {
     const date = document.querySelector('.entry-date').value;
     const description = document.querySelector('.description').value;
 
-    let body = {
+    let payload = {
         "entryType": type,
         "taskState": "incomplete",
         "significationType": significant,
@@ -99,14 +99,14 @@ const send = (e) => {
         "body": description
     };
 
-    fetch('http://bulletjournal-api.herokuapp.com/api/entries/', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'x-access-token': token
-        },
-        body: JSON.stringify(body),
-    }).then(resp => console.log(resp))
+    bullet.post(`/api/entries/`,
+        payload,
+        {
+            headers:
+            {
+                'x-access-token': token
+            },
+        }).then(resp => console.log(resp))
         .catch(err => console.log(err));
     document.querySelector('#entry-form').reset();
 };
@@ -291,23 +291,21 @@ const addListenersForMonthlyDailyNavbar = () => {
 
 const initIrrelevant = () => {
     document.querySelector('#task-table').innerHTML = " ";
-    fetch(`http://bulletjournal-api.herokuapp.com/api/entries`, {
+
+    bullet.get('/api/entries', {
         headers: {
             'x-access-token': token
-        },
-    })
-        .then(response => response.json())
-        .catch(new Error('Could not get any tasks'))
-        .then(tasks => {
-            for (const task of tasks.entries) {
-                if (task.taskState == "irrelevant") {
-                    createTaskHTML(task);
-                };
+        }
+    }).then(tasks => {
+        for (const task of tasks.data.entries) {
+            if (task.taskState == "irrelevant") {
+                createTaskHTML(task);
             };
-            addListenersToSignificancyButtons();
-            addListenersToTypeAndStateButtons();
-            addListenerToChangeTaskDateButton();
-        });
+        };
+        addListenersToSignificancyButtons();
+        addListenersToTypeAndStateButtons();
+        addListenerToChangeTaskDateButton();
+    }).catch(new Error('Could not get any tasks'));
 };
 
 const initMonthlyLog = () => {
@@ -318,22 +316,20 @@ const initMonthlyLog = () => {
 const initMonthlyLogWithDate = (todaysDate) => {
     document.querySelector('#task-table').innerHTML = " ";
     createNavBarForMonthlyAndDailyLog(todaysDate);
-    fetch(`http://bulletjournal-api.herokuapp.com/api/entries?month=${todaysDate.getFullYear()}-${todaysDate.getMonth() + 1}`, {
+
+    bullet.get(`/api/entries?month=${todaysDate.getFullYear()}-${todaysDate.getMonth() + 1}`, {
         headers: {
-            'Content-Type': 'Application/json',
             'x-access-token': token
         }
-    })
-        .then(response => response.json())
-        .catch(new Error('Could not get any tasks'))
-        .then(tasks => {
-            for (const task of tasks.entries) {
-                createTaskHTML(task);
-            };
-            addListenersToSignificancyButtons();
-            addListenersToTypeAndStateButtons();
-            addListenerToChangeTaskDateButton();
-        });
+    }).then(tasks => {
+        console.log(tasks);
+        for (const task of tasks.data.entries) {
+            createTaskHTML(task);
+        }
+        addListenersToSignificancyButtons();
+        addListenersToTypeAndStateButtons();
+        addListenerToChangeTaskDateButton();
+    }).catch(new Error('Could not get any tasks'));
 };
 
 const initDailyLog = () => {
@@ -349,45 +345,44 @@ const initDailyLogWithDate = (todaysDate) => {
 
     document.querySelector('#task-table').innerHTML = " ";
     createNavBarForMonthlyAndDailyLog(todaysDate);
-    fetch(`http://bulletjournal-api.herokuapp.com/api/entries?ondate=${fullDate}`, {
-        method: 'GET',
+
+    bullet.get('/api/entries', {
+        params: {
+            ondate: fullDate
+        },
         headers: {
-            'Content-Type': 'Application/json',
             'x-access-token': token
         }
     })
-        .then(response => response.json())
-        .catch(new Error('Could not get any tasks'))
         .then(tasks => {
-            for (const task of tasks.entries) {
+            for (const task of tasks.data.entries) {
                 createTaskHTML(task);
             };
             addListenersToSignificancyButtons();
             addListenersToTypeAndStateButtons();
             addListenerToChangeTaskDateButton();
-        });
+        })
+        .catch(new Error('Could not get any tasks'));
 }
 
 const initBacklog = () => {
     document.querySelector('#task-table').innerHTML = " ";
-    fetch(`http://bulletjournal-api.herokuapp.com/api/entries`, {
+    bullet.get('/api/entries', {
         headers: {
-            'Content-Type': 'Application/json',
             'x-access-token': token
         }
-    })
-        .then(response => response.json())
-        .catch(new Error('Could not get any tasks'))
-        .then(tasks => {
-            for (const task of tasks.entries) {
-                if (!task.date) {
-                    createTaskHTML(task);
-                };
+    }).then(tasks => {
+        console.log(tasks);
+
+        for (const task of tasks.data.entries) {
+            if (!task.date) {
+                createTaskHTML(task);
             };
-            addListenersToSignificancyButtons();
-            addListenersToTypeAndStateButtons();
-            addListenerToChangeTaskDateButton();
-        });
+        };
+        addListenersToSignificancyButtons();
+        addListenersToTypeAndStateButtons();
+        addListenerToChangeTaskDateButton();
+    }).catch(new Error('Could not get any tasks'));
 };
 
 const addListenerToChangeTaskDateButton = () => {
@@ -610,31 +605,28 @@ const putTaskIntoHTML = (taskHTML) => {
 const editEntry = (entryId, body) => {
     console.log(body);
     console.log(entryId);
-    fetch(`http://bulletjournal-api.herokuapp.com/api/entries/${entryId}`, {
-        method: 'PUT',
-        headers: {
-            'Content-Type': 'application/json',
-            'x-access-token': token
-        },
-        body: JSON.stringify(body),
-    }).then(resp => {
-        console.log(resp);
-        logInit();
-    })
-        .catch(err => console.log(err));
+    bullet.put(`/api/entries/${entryId}`,
+        body,
+        {
+            headers:
+            {
+                'x-access-token': token
+            }
+        }).then(resp => {
+            console.log(resp);
+            logInit();
+        }).catch(err => console.log(err));
 };
+
 const deleteEntry = (entryId) => {
-    fetch(`http://bulletjournal-api.herokuapp.com/api/entries/${entryId}`, {
-        method: 'DELETE',
+    bullet.delete(`/api/entries/${entryId}`, {
         headers: {
-            'Content-Type': 'application/json',
             'x-access-token': token
-        },
+        }
     }).then(resp => {
         console.log(resp);
         logInit();
-    })
-        .catch(err => console.log(err));
+    }).catch(err => console.log(err));
 };
 
 const logInit = () => {

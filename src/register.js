@@ -1,3 +1,5 @@
+import bullet from './api/BullerBack'
+
 const signUpButton = document.querySelector('.registerbtn');
 if (signUpButton) {
     signUpButton.addEventListener('click', (event) => {
@@ -14,17 +16,13 @@ function handleSignUp(event) {
     const passwords = document.querySelectorAll('input[type=password]');
     const password = passwords[0].value;
     const otherPassword = passwords[1].value;
+
     if (password === otherPassword) {
-        fetch('http://bulletjournal-api.herokuapp.com/user/signup', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ email, password, name })
-        })
-            .then(() => {
-                window.location.href = 'login.html';
-            })
+        bullet.post('/user/signup', {
+            email,
+            password,
+            name,
+        }).then(() => window.location.href = 'login.html')
             .catch(err => console.log(err));
     } else {
         displayErrorMessage();
