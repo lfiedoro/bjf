@@ -1,8 +1,8 @@
-import bullet from './api/BullerBack'
+import bullet from './api/BullerBack';
 
 const signUpButton = document.querySelector('.registerbtn');
 if (signUpButton) {
-    signUpButton.addEventListener('click', (event) => {
+    signUpButton.addEventListener('click', event => {
         event.stopPropagation();
         handleSignUp(event);
     });
@@ -18,19 +18,21 @@ function handleSignUp(event) {
     const otherPassword = passwords[1].value;
 
     if (password === otherPassword) {
-        bullet.post('/user/signup', {
-            email,
-            password,
-            name,
-        }).then(() => window.location.href = 'login.html')
+        bullet
+            .post('/user/signup', {
+                email,
+                password,
+                name,
+            })
+            .then(() => (window.location.href = 'login.html'))
             .catch(err => console.log(err));
     } else {
         displayErrorMessage();
     }
 }
-const displayErrorMessage = (statusCode) => {
+const displayErrorMessage = statusCode => {
     const errorField = document.querySelector('#error-field');
     errorField.classList.add('visible');
     let message = 'Passwords do not match.';
     errorField.innerHTML = `<div>${message}</div>`;
-}
+};

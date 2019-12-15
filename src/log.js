@@ -1,5 +1,5 @@
-import bullet from './api/BullerBack'
-let token = undefined;
+import bullet from './api/BullerBack';
+let token;
 
 /**
  * @param {String} HTML representing a single element
@@ -13,7 +13,7 @@ function htmlToElement(html) {
 }
 /**
  * @param {String} HTML representing any number of sibling elements
- * @return {NodeList} 
+ * @return {NodeList}
  */
 function htmlToElements(html) {
     var template = document.createElement('template');
@@ -22,7 +22,9 @@ function htmlToElements(html) {
 }
 
 const handleDeleteUser = () => {
-    alert('We do not support deleting account yet :(. You have to stay with us for ever....')
+    alert(
+        'We do not support deleting account yet :(. You have to stay with us for ever....'
+    );
 };
 
 const addListenersToMenuButtons = () => {
@@ -39,21 +41,25 @@ const addListenersToMenuButtons = () => {
     addListenerToOneMenuButton(backlogButton, initBacklog, menuButtons);
     addListenerToOneMenuButton(irrelevantButton, initIrrelevant, menuButtons);
     addListenerToOneMenuButton(addNewEntryButton, initEntryForm, menuButtons);
-    deleteAccountButton.addEventListener('click', (e) => {
+    deleteAccountButton.addEventListener('click', e => {
         e.preventDefault();
         e.stopPropagation();
         handleDeleteUser();
     });
-}
-const addListenerToOneMenuButton = (buttonName, callbackFunc, allMenuButtons) => {
-    buttonName.addEventListener('click', (e) => {
+};
+const addListenerToOneMenuButton = (
+    buttonName,
+    callbackFunc,
+    allMenuButtons
+) => {
+    buttonName.addEventListener('click', e => {
         e.preventDefault();
         e.stopPropagation();
         allMenuButtons.forEach(button => button.classList.remove('active'));
         buttonName.classList.add('active');
         callbackFunc();
-    })
-}
+    });
+};
 const addListenersToFormButtons = () => {
     let sendBtn = document.querySelector('.sendbtn');
     if (sendBtn) sendBtn.addEventListener('click', send);
@@ -62,19 +68,21 @@ const addListenersToFormButtons = () => {
 };
 
 const initEntryForm = () => {
-    document.querySelector('#task-table').innerHTML = " ";
+    document.querySelector('#task-table').innerHTML = ' ';
     const entryFormHtml = createEntryFormHtml();
     const table = document.querySelector('#task-table');
     table.appendChild(htmlToElement(entryFormHtml));
     addListenersToFormButtons();
 };
-const reset = (e) => {
+const reset = e => {
     e.preventDefault();
     document.querySelector('#entry-form').reset();
 };
 
-const getRadioTypeInput = (radioId) => {
-    const radio = document.querySelector(radioId).querySelectorAll('input[type=radio]');
+const getRadioTypeInput = radioId => {
+    const radio = document
+        .querySelector(radioId)
+        .querySelectorAll('input[type=radio]');
     for (let i = 0; i < radio.length; i++) {
         if (radio[i].checked) {
             return radio[i].value;
@@ -82,7 +90,7 @@ const getRadioTypeInput = (radioId) => {
     }
 };
 
-const send = (e) => {
+const send = e => {
     e.preventDefault();
     e.stopPropagation();
 
@@ -92,21 +100,20 @@ const send = (e) => {
     const description = document.querySelector('.description').value;
 
     let payload = {
-        "entryType": type,
-        "taskState": "incomplete",
-        "significationType": significant,
-        "date": date,
-        "body": description
+        entryType: type,
+        taskState: 'incomplete',
+        significationType: significant,
+        date: date,
+        body: description,
     };
 
-    bullet.post(`/api/entries/`,
-        payload,
-        {
-            headers:
-            {
-                'x-access-token': token
+    bullet
+        .post(`/api/entries/`, payload, {
+            headers: {
+                'x-access-token': token,
             },
-        }).then(resp => console.log(resp))
+        })
+        .then(resp => console.log(resp))
         .catch(err => console.log(err));
     document.querySelector('#entry-form').reset();
 };
@@ -169,7 +176,9 @@ const createEntryFormHtml = () => {
                     </div>
                     <div class="inline field">
                         <label>Date </label>
-                        <input class="entry-date" type="date" name="date" min="${new Date().toJSON().slice(0, 10)}"></input>
+                        <input class="entry-date" type="date" name="date" min="${new Date()
+                            .toJSON()
+                            .slice(0, 10)}"></input>
                     </div>
                 </div>
                 <button class="ui large button submit blue sendbtn">Add</button>
@@ -177,9 +186,9 @@ const createEntryFormHtml = () => {
             </form>
         </div>
     </div>`;
-}
+};
 
-const createNavBarForMonthlyAndDailyLog = (date) => {
+const createNavBarForMonthlyAndDailyLog = date => {
     const html = createNavBarForMonthlyAndDailyLogHtml(date);
     const htmlToPut = htmlToElement(html);
     putTaskIntoHTML(htmlToPut);
@@ -187,18 +196,41 @@ const createNavBarForMonthlyAndDailyLog = (date) => {
     activateCalendar();
 };
 
-const createNavBarForMonthlyAndDailyLogHtml = (date) => {
+const createNavBarForMonthlyAndDailyLogHtml = date => {
     const dailyButton = document.querySelector('#daily-button');
     const monthlyButton = document.querySelector('#monthly-button');
 
     let headerToDisplay = 'dupa';
 
     if (dailyButton.className.includes('active')) {
-        let weekDays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-        headerToDisplay = `${weekDays[date.getDay()]}  ${date.getDate()}.${date.getMonth() + 1}.${date.getFullYear()}`;
+        let weekDays = [
+            'Sunday',
+            'Monday',
+            'Tuesday',
+            'Wednesday',
+            'Thursday',
+            'Friday',
+            'Saturday',
+        ];
+        headerToDisplay = `${
+            weekDays[date.getDay()]
+        }  ${date.getDate()}.${date.getMonth() + 1}.${date.getFullYear()}`;
     }
     if (monthlyButton.className.includes('active')) {
-        let months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+        let months = [
+            'January',
+            'February',
+            'March',
+            'April',
+            'May',
+            'June',
+            'July',
+            'August',
+            'September',
+            'October',
+            'November',
+            'December',
+        ];
         headerToDisplay = `${months[date.getMonth()]} ${date.getFullYear()}`;
     }
     return `
@@ -209,7 +241,12 @@ const createNavBarForMonthlyAndDailyLogHtml = (date) => {
                 </div>
             </td>
             <td >
-            ${createChangeDateButton("", "new-log-date", "activate-log-cal", "date-picker")}
+            ${createChangeDateButton(
+                '',
+                'new-log-date',
+                'activate-log-cal',
+                'date-picker'
+            )}
             </td>
             <td class="center aligned"><div class="day-or-month" style="display: none">${date}</div><h2>${headerToDisplay}</h2></td>
             <td class="collapsing">
@@ -219,15 +256,21 @@ const createNavBarForMonthlyAndDailyLogHtml = (date) => {
             </td>
         </tr>
     `;
-}
+};
 
 const getNextOrPreviousDate = (monthDiff, dayDiff) => {
-    let currentDisplayedDate = new Date(document.querySelector('.day-or-month').textContent);
-    let newDate = new Date(currentDisplayedDate.setMonth(currentDisplayedDate.getMonth() + monthDiff, currentDisplayedDate.getDate() + dayDiff));
+    let currentDisplayedDate = new Date(
+        document.querySelector('.day-or-month').textContent
+    );
+    let newDate = new Date(
+        currentDisplayedDate.setMonth(
+            currentDisplayedDate.getMonth() + monthDiff,
+            currentDisplayedDate.getDate() + dayDiff
+        )
+    );
     console.log(newDate);
     return newDate;
-}
-
+};
 
 const addListenersForMonthlyDailyNavbar = () => {
     const previousButton = document.querySelector('#previous-day');
@@ -237,75 +280,76 @@ const addListenersForMonthlyDailyNavbar = () => {
     const dailyButton = document.querySelector('#daily-button');
     const monthlyButton = document.querySelector('#monthly-button');
 
-
     if (dailyButton.className.includes('active')) {
-        calendarButton.nextElementSibling.lastElementChild.type = "date";
-        previousButton.addEventListener('click', (e) => {
+        calendarButton.nextElementSibling.lastElementChild.type = 'date';
+        previousButton.addEventListener('click', e => {
             e.stopPropagation();
             e.preventDefault();
             initDailyLogWithDate(getNextOrPreviousDate(0, -1));
         });
-        nextButton.addEventListener('click', (e) => {
+        nextButton.addEventListener('click', e => {
             e.stopPropagation();
             e.preventDefault();
             initDailyLogWithDate(getNextOrPreviousDate(0, 1));
-
         });
-        calendarButton.addEventListener('click', (e) => {
+        calendarButton.addEventListener('click', e => {
             e.stopPropagation();
             e.preventDefault();
-            const newDate = calendarButton.nextElementSibling.lastElementChild.value;
+            const newDate =
+                calendarButton.nextElementSibling.lastElementChild.value;
             if (newDate) {
                 initDailyLogWithDate(new Date(newDate));
             } else {
                 initDailyLog();
             }
-        })
-    };
+        });
+    }
     if (monthlyButton.className.includes('active')) {
-        calendarButton.nextElementSibling.lastElementChild.type = "month";
-        previousButton.addEventListener('click', (e) => {
+        calendarButton.nextElementSibling.lastElementChild.type = 'month';
+        previousButton.addEventListener('click', e => {
             e.stopPropagation();
             e.preventDefault();
             initMonthlyLogWithDate(getNextOrPreviousDate(-1, 0));
-
         });
-        nextButton.addEventListener('click', (e) => {
+        nextButton.addEventListener('click', e => {
             e.stopPropagation();
             e.preventDefault();
             initMonthlyLogWithDate(getNextOrPreviousDate(1, 0));
         });
-        calendarButton.addEventListener('click', (e) => {
+        calendarButton.addEventListener('click', e => {
             e.stopPropagation();
             e.preventDefault();
-            const newDate = calendarButton.nextElementSibling.lastElementChild.value;
+            const newDate =
+                calendarButton.nextElementSibling.lastElementChild.value;
             if (newDate) {
                 initMonthlyLogWithDate(new Date(newDate));
             } else {
                 initMonthlyLog();
             }
-        })
-    };
+        });
+    }
 };
 
-
 const initIrrelevant = () => {
-    document.querySelector('#task-table').innerHTML = " ";
+    document.querySelector('#task-table').innerHTML = ' ';
 
-    bullet.get('/api/entries', {
-        headers: {
-            'x-access-token': token
-        }
-    }).then(tasks => {
-        for (const task of tasks.data.entries) {
-            if (task.taskState == "irrelevant") {
-                createTaskHTML(task);
-            };
-        };
-        addListenersToSignificancyButtons();
-        addListenersToTypeAndStateButtons();
-        addListenerToChangeTaskDateButton();
-    }).catch(new Error('Could not get any tasks'));
+    bullet
+        .get('/api/entries', {
+            headers: {
+                'x-access-token': token,
+            },
+        })
+        .then(tasks => {
+            for (const task of tasks.data.entries) {
+                if (task.taskState == 'irrelevant') {
+                    createTaskHTML(task);
+                }
+            }
+            addListenersToSignificancyButtons();
+            addListenersToTypeAndStateButtons();
+            addListenerToChangeTaskDateButton();
+        })
+        .catch(new Error('Could not get any tasks'));
 };
 
 const initMonthlyLog = () => {
@@ -313,26 +357,30 @@ const initMonthlyLog = () => {
     initMonthlyLogWithDate(date);
 };
 
-const initMonthlyLogWithDate = (todaysDate) => {
-    document.querySelector('#task-table').innerHTML = " ";
+const initMonthlyLogWithDate = todaysDate => {
+    document.querySelector('#task-table').innerHTML = ' ';
     createNavBarForMonthlyAndDailyLog(todaysDate);
 
-    bullet.get('/api/entries', {
-        params: {
-            month: `${todaysDate.getFullYear()}-${todaysDate.getMonth() + 1}`
-        },
-        headers: {
-            'x-access-token': token
-        }
-    }).then(tasks => {
-        console.log(tasks);
-        for (const task of tasks.data.entries) {
-            createTaskHTML(task);
-        }
-        addListenersToSignificancyButtons();
-        addListenersToTypeAndStateButtons();
-        addListenerToChangeTaskDateButton();
-    }).catch(new Error('Could not get any tasks'));
+    bullet
+        .get('/api/entries', {
+            params: {
+                month: `${todaysDate.getFullYear()}-${todaysDate.getMonth() +
+                    1}`,
+            },
+            headers: {
+                'x-access-token': token,
+            },
+        })
+        .then(tasks => {
+            console.log(tasks);
+            for (const task of tasks.data.entries) {
+                createTaskHTML(task);
+            }
+            addListenersToSignificancyButtons();
+            addListenersToTypeAndStateButtons();
+            addListenerToChangeTaskDateButton();
+        })
+        .catch(new Error('Could not get any tasks'));
 };
 
 const initDailyLog = () => {
@@ -340,94 +388,100 @@ const initDailyLog = () => {
     initDailyLogWithDate(todaysDate);
 };
 
-const initDailyLogWithDate = (todaysDate) => {
+const initDailyLogWithDate = todaysDate => {
     let month = todaysDate.getMonth();
     let day = todaysDate.getDate();
     let fullDate = `${todaysDate.getFullYear()}-${month + 1}-${day}`;
     console.log(fullDate);
 
-    document.querySelector('#task-table').innerHTML = " ";
+    document.querySelector('#task-table').innerHTML = ' ';
     createNavBarForMonthlyAndDailyLog(todaysDate);
 
-    bullet.get('/api/entries', {
-        params: {
-            ondate: fullDate
-        },
-        headers: {
-            'x-access-token': token
-        }
-    })
+    bullet
+        .get('/api/entries', {
+            params: {
+                ondate: fullDate,
+            },
+            headers: {
+                'x-access-token': token,
+            },
+        })
         .then(tasks => {
             for (const task of tasks.data.entries) {
                 createTaskHTML(task);
-            };
+            }
             addListenersToSignificancyButtons();
             addListenersToTypeAndStateButtons();
             addListenerToChangeTaskDateButton();
         })
         .catch(new Error('Could not get any tasks'));
-}
+};
 
 const initBacklog = () => {
-    document.querySelector('#task-table').innerHTML = " ";
-    bullet.get('/api/entries', {
-        headers: {
-            'x-access-token': token
-        }
-    }).then(tasks => {
-        console.log(tasks);
+    document.querySelector('#task-table').innerHTML = ' ';
+    bullet
+        .get('/api/entries', {
+            headers: {
+                'x-access-token': token,
+            },
+        })
+        .then(tasks => {
+            console.log(tasks);
 
-        for (const task of tasks.data.entries) {
-            if (!task.date) {
-                createTaskHTML(task);
-            };
-        };
-        addListenersToSignificancyButtons();
-        addListenersToTypeAndStateButtons();
-        addListenerToChangeTaskDateButton();
-    }).catch(new Error('Could not get any tasks'));
+            for (const task of tasks.data.entries) {
+                if (!task.date) {
+                    createTaskHTML(task);
+                }
+            }
+            addListenersToSignificancyButtons();
+            addListenersToTypeAndStateButtons();
+            addListenerToChangeTaskDateButton();
+        })
+        .catch(new Error('Could not get any tasks'));
 };
 
 const addListenerToChangeTaskDateButton = () => {
     const openButtons = document.querySelectorAll('.activate-task-cal');
 
-    openButtons.forEach((button) => {
+    openButtons.forEach(button => {
         const acceptButton = button.nextElementSibling;
         const calendar = acceptButton.nextElementSibling;
-        button.addEventListener('click', (e) => {
+        button.addEventListener('click', e => {
             e.preventDefault();
             e.stopPropagation();
-            calendar.style.display = "";
-            acceptButton.style.display = "";
+            calendar.style.display = '';
+            acceptButton.style.display = '';
         });
-        const changeStatus = (e) => {
+        const changeStatus = e => {
             e.stopPropagation();
             e.preventDefault();
             const entryId = button.parentElement.parentElement.parentElement.id;
-            const newdate = button.nextElementSibling.nextElementSibling.lastElementChild.value;
+            const newdate =
+                button.nextElementSibling.nextElementSibling.lastElementChild
+                    .value;
             const newDateBody = {
-                "taskState": "migrated",
-                "date": `${newdate}`
+                taskState: 'migrated',
+                date: `${newdate}`,
             };
             editEntry(entryId, newDateBody);
-        }
+        };
         acceptButton.addEventListener('click', changeStatus);
     });
 };
 
-
 const addListenersToSignificancyButtons = () => {
     const buttons = document.querySelectorAll('.signification .menu .item');
 
-    const priorityBody = { "significationType": "priority" };
-    const inspirationBody = { "significationType": "inspiration" };
-    const noneBody = { "significationType": "none" };
+    const priorityBody = { significationType: 'priority' };
+    const inspirationBody = { significationType: 'inspiration' };
+    const noneBody = { significationType: 'none' };
 
     buttons.forEach(button => {
-        const changeStatus = (e) => {
+        const changeStatus = e => {
             e.stopPropagation();
             e.preventDefault();
-            const entryId = button.parentElement.parentNode.parentNode.parentNode.id;
+            const entryId =
+                button.parentElement.parentNode.parentNode.parentNode.id;
             if (button.className.includes('none')) {
                 editEntry(entryId, noneBody);
             }
@@ -437,29 +491,30 @@ const addListenersToSignificancyButtons = () => {
             if (button.className.includes('priority')) {
                 editEntry(entryId, priorityBody);
             }
-        }
+        };
         button.addEventListener('click', changeStatus);
-    })
+    });
 };
 
 const addListenersToTypeAndStateButtons = () => {
     const buttons = document.querySelectorAll('.type-state .menu .item');
-    const eventBody = { "entryType": "event" };
-    const noteBody = { "entryType": "note" };
-    const taskBody = { "entryType": "task" };
-    const incompleteBody = { "taskState": "incomplete" };//dac jako drugie klikniecie na complete czy jako oddzielna opcja w menu?
-    const completeBody = { "taskState": "complete" };
-    const irrelevantBody = { "taskState": "irrelevant" };
+    const eventBody = { entryType: 'event' };
+    const noteBody = { entryType: 'note' };
+    const taskBody = { entryType: 'task' };
+    const incompleteBody = { taskState: 'incomplete' }; //dac jako drugie klikniecie na complete czy jako oddzielna opcja w menu?
+    const completeBody = { taskState: 'complete' };
+    const irrelevantBody = { taskState: 'irrelevant' };
     const scheduledBody = {
-        "taskState": "scheduled",
-        "date": ""
+        taskState: 'scheduled',
+        date: '',
     };
 
     buttons.forEach(button => {
-        const changeStatus = (e) => {
+        const changeStatus = e => {
             e.stopPropagation();
             e.preventDefault();
-            const entryId = button.parentElement.parentNode.parentNode.parentNode.id;
+            const entryId =
+                button.parentElement.parentNode.parentNode.parentNode.id;
 
             if (button.className.includes('event')) {
                 editEntry(entryId, eventBody);
@@ -482,26 +537,33 @@ const addListenersToTypeAndStateButtons = () => {
             if (button.className.includes('delete')) {
                 deleteEntry(entryId);
             }
-        }
+        };
         button.addEventListener('click', changeStatus);
-    })
+    });
 };
 
-const createTaskHTML = (task) => {
+const createTaskHTML = task => {
     const html = `
         <tr class="task" id=${task._id}> 
-            <td class="collapsing signification">${createSignificationButtonMenu(createSignificationButton(task.significationType))}</td>
-            <td class="collapsing type-state">${createTypeAndStateButtonMenu(createTypeAndStateButton(task.entryType, task.taskState))}</td>
+            <td class="collapsing signification">${createSignificationButtonMenu(
+                createSignificationButton(task.significationType)
+            )}</td>
+            <td class="collapsing type-state">${createTypeAndStateButtonMenu(
+                createTypeAndStateButton(task.entryType, task.taskState)
+            )}</td>
             <td class="description">${task.body}</td>
-            <td class="collapsing">${createChangeDateButton(`date" min="${new Date().toJSON().slice(0, 10)}`, "accept-new-date", "basic activate-task-cal", `btn-${task._id}`)}</td>
+            <td class="collapsing">${createChangeDateButton(
+                `date" min="${new Date().toJSON().slice(0, 10)}`,
+                'accept-new-date',
+                'basic activate-task-cal',
+                `btn-${task._id}`
+            )}</td>
         </tr>
         `;
     const element = htmlToElement(html);
 
     putTaskIntoHTML(element);
 };
-
-
 
 const createChangeDateButton = (pickerType, btnClass, iconType, btnId) => {
     return `
@@ -517,33 +579,33 @@ const createChangeDateButton = (pickerType, btnClass, iconType, btnId) => {
                
         </div>
     </div>
-    `
+    `;
 };
 
 const activateCalendar = () => {
     const button = document.querySelector('.activate-log-cal');
     const calendar = document.querySelector('.date-picker-container');
     const acceptButton = document.querySelector('#date-picker');
-    button.addEventListener('click', (e) => {
+    button.addEventListener('click', e => {
         e.preventDefault();
         e.stopPropagation();
-        calendar.style.display = "";
-        acceptButton.style.display = "";
-    })
-}
+        calendar.style.display = '';
+        acceptButton.style.display = '';
+    });
+};
 
-const createSignificationButton = (type) => {
+const createSignificationButton = type => {
     switch (type) {
-        case "priority":
-            return "exclamation";
-        case "inspiration":
-            return "star";
-        case "none":
-            return "";
+        case 'priority':
+            return 'exclamation';
+        case 'inspiration':
+            return 'star';
+        case 'none':
+            return '';
     }
 };
 
-const createSignificationButtonMenu = (buttonIcon) => {
+const createSignificationButtonMenu = buttonIcon => {
     return `
     <div class="ui basic simple icon top left dropdown button">
     <i class="${buttonIcon} icon"></i>
@@ -554,10 +616,10 @@ const createSignificationButtonMenu = (buttonIcon) => {
             <div class="item none"><i class="icon"></i>None</div>
         </div>
     </div>
-    `
-}
+    `;
+};
 
-const createTypeAndStateButtonMenu = (buttonIcon) => {
+const createTypeAndStateButtonMenu = buttonIcon => {
     return `
     <div class="ui icon basic simple dropdown button">
         <i class="${buttonIcon} icon"></i>
@@ -573,34 +635,34 @@ const createTypeAndStateButtonMenu = (buttonIcon) => {
             <div class="item delete"><i class="trash alternate icon"></i>Delete</div>
         </div>
     </div>
-    `
-}
+    `;
+};
 
 const createTypeAndStateButton = (type, state) => {
-    if (state === "complete") {
-        return "close";
+    if (state === 'complete') {
+        return 'close';
     }
-    if (state === "migrated") {
-        return "chevron right";
+    if (state === 'migrated') {
+        return 'chevron right';
     }
-    if (state === "scheduled") {
-        return "chevron left";
+    if (state === 'scheduled') {
+        return 'chevron left';
     }
-    if (state === "irrelevant") {
-        return "ban";
+    if (state === 'irrelevant') {
+        return 'ban';
     }
-    if (type === "task") {
-        return "circle";
+    if (type === 'task') {
+        return 'circle';
     }
-    if (type === "note") {
-        return "minus";
+    if (type === 'note') {
+        return 'minus';
     }
-    if (type === "event") {
-        return "circle outline";
+    if (type === 'event') {
+        return 'circle outline';
     }
 };
 
-const putTaskIntoHTML = (taskHTML) => {
+const putTaskIntoHTML = taskHTML => {
     const taskTable = document.querySelector('#task-table');
     taskTable.appendChild(taskHTML);
 };
@@ -608,28 +670,31 @@ const putTaskIntoHTML = (taskHTML) => {
 const editEntry = (entryId, body) => {
     console.log(body);
     console.log(entryId);
-    bullet.put(`/api/entries/${entryId}`,
-        body,
-        {
-            headers:
-            {
-                'x-access-token': token
-            }
-        }).then(resp => {
+    bullet
+        .put(`/api/entries/${entryId}`, body, {
+            headers: {
+                'x-access-token': token,
+            },
+        })
+        .then(resp => {
             console.log(resp);
             logInit();
-        }).catch(err => console.log(err));
+        })
+        .catch(err => console.log(err));
 };
 
-const deleteEntry = (entryId) => {
-    bullet.delete(`/api/entries/${entryId}`, {
-        headers: {
-            'x-access-token': token
-        }
-    }).then(resp => {
-        console.log(resp);
-        logInit();
-    }).catch(err => console.log(err));
+const deleteEntry = entryId => {
+    bullet
+        .delete(`/api/entries/${entryId}`, {
+            headers: {
+                'x-access-token': token,
+            },
+        })
+        .then(resp => {
+            console.log(resp);
+            logInit();
+        })
+        .catch(err => console.log(err));
 };
 
 const logInit = () => {
@@ -654,4 +719,4 @@ if (wind.includes('log.html')) {
 
     console.log('dailylog init with');
     logInit();
-};
+}
