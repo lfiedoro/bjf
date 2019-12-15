@@ -317,7 +317,10 @@ const initMonthlyLogWithDate = (todaysDate) => {
     document.querySelector('#task-table').innerHTML = " ";
     createNavBarForMonthlyAndDailyLog(todaysDate);
 
-    bullet.get(`/api/entries?month=${todaysDate.getFullYear()}-${todaysDate.getMonth() + 1}`, {
+    bullet.get('/api/entries', {
+        params: {
+            month: `${todaysDate.getFullYear()}-${todaysDate.getMonth() + 1}`
+        },
         headers: {
             'x-access-token': token
         }
