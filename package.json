@@ -5,8 +5,8 @@
   "private": true,
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "webpack-dev-server --config webpack.dev.js",
-    "build": "webpack --config webpack.prod.js"
+    "local-start": "webpack-dev-server --config webpack.dev.js",
+    "start": "webpack --config webpack.prod.js && node src/serv.js"
   },
   "keywords": [],
   "author": "",
@@ -31,6 +31,7 @@
   },
   "dependencies": {
     "axios": "^0.19.0",
+    "express": "^4.17.1",
     "normalize.css": "^8.0.1"
   }
 }
