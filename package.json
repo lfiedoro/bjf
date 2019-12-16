@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "local-start": "webpack-dev-server --config webpack.dev.js",
-    "start": "webpack --config webpack.prod.js && node src/serv.js"
+    "start": "node src/serv.js",
+    "heroku-postbuild": "echo dupa && webpack --config webpack.prod.js"
   },
   "keywords": [],
   "author": "",
