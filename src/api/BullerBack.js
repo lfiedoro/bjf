@@ -1,5 +1,5 @@
 import axios from 'axios';
 
 export default axios.create({
-    baseURL: 'http://bulletjournal-api.herokuapp.com/',
+    baseURL: 'https://bulletjournal-api.herokuapp.com/',
 });
