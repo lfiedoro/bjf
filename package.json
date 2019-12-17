@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "local-start": "webpack-dev-server --config webpack.dev.js",
     "start": "node src/serv.js",
-    "heroku-postbuild": "echo dupa && webpack --config webpack.prod.js"
+    "heroku-postbuild": "echo Hi! && webpack --config webpack.prod.js"
   },
   "keywords": [],
   "author": "",
@@ -33,6 +33,7 @@
   "dependencies": {
     "axios": "^0.19.0",
     "express": "^4.17.1",
+    "fomantic-ui-css": "^2.8.2",
     "normalize.css": "^8.0.1"
   }
 }
