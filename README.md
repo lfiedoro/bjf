@@ -1,9 +1,7 @@
 ## Bu Jo App - modern Bullet Journal
 #####  Weekly task in [https://coderscamp.edu.pl/](https://coderscamp.edu.pl/) course
 
-### **LIVE DEMO:** [click here](https://bullet-to-do.herokuapp.com/)
-(Currently app has some problems with applying Semantic UI styles - we are working on it :))
-
+### **LIVE DEMO:** [click here](http://138.68.100.214:8000/)
 
 BuJoApp is an amazing system that keeps a record of everything you could ever want to toss at it.
 It can be your task manager, sketchbook, journal, idea catcher, and much more! The BuJoApp is a
